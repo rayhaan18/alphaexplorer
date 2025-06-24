@@ -12,8 +12,8 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: #f4f8fc;
-      color: #333;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
+      color: #222;
       display: flex;
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
@@ -29,20 +29,29 @@
       position: fixed;
       left: 0;
       top: 0;
-      width: 260px;
+      width: 280px;
       height: 100vh;
-      background: #002c54;
-      color: #fff;
-      padding: 20px;
+      background: linear-gradient(180deg, #004d40, #00695c);
+      color: #e0f2f1;
+      padding: 25px 20px;
       overflow-y: auto;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.15);
       transition: background 0.3s;
       z-index: 10;
+      display: flex;
+      flex-direction: column;
     }
     aside h2 {
-      font-size: 1.4rem;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
+      font-size: 1.6rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 2px #00332f;
+      user-select: none;
+    }
+    aside nav {
+      flex-grow: 1;
     }
     aside nav ul {
       list-style: none;
@@ -50,84 +59,144 @@
       margin: 0;
     }
     aside nav li {
-      margin: 12px 0;
+      margin: 16px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     aside nav li a {
-      display: block;
-      padding: 8px 12px;
-      border-radius: 5px;
-      transition: background 0.3s, color 0.3s;
+      flex-grow: 1;
+      padding: 8px 14px;
+      border-radius: 8px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.3s, color 0.3s;
+      color: #b2dfdb;
+      user-select: none;
     }
     aside nav li a:hover,
     aside nav li a.active {
-      background: #4fc3f7;
-      color: #002c54;
-      text-decoration: underline;
+      background: #26a69a;
+      color: #004d40;
+      text-decoration: none;
+      box-shadow: 0 2px 10px rgba(38,166,154,0.6);
+    }
+    aside nav li a svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Dark mode toggle inside sidebar */
+    .dark-mode-toggle {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px solid #004d40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #b2dfdb;
+      font-weight: 600;
+      user-select: none;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #b2dfdb;
+      border-radius: 34px;
+      transition: .4s;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 20px; width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #004d40;
+      border-radius: 50%;
+      transition: .4s;
+    }
+    input:checked + .slider {
+      background-color: #26a69a;
+    }
+    input:checked + .slider:before {
+      transform: translateX(24px);
+      background-color: #004d40;
     }
 
     /* Main content */
     main {
-      margin-left: 260px;
-      padding: 30px 40px;
+      margin-left: 280px;
+      padding: 30px 50px;
       flex-grow: 1;
       max-width: 900px;
       transition: background 0.3s, color 0.3s;
       scroll-behavior: smooth;
+      user-select: text;
     }
     section {
-      margin-bottom: 50px;
-      background: #fff;
-      padding: 20px 25px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 60px;
+      background: #ffffffdd;
+      padding: 25px 30px;
+      border-radius: 20px;
+      box-shadow:
+        0 10px 15px rgba(0,0,0,0.05),
+        inset 0 0 15px rgba(255,255,255,0.7);
       transition: background 0.3s, color 0.3s;
     }
     section h2 {
       margin-top: 0;
-      color: #0070f3;
+      color: #00796b;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 0.03em;
+      text-shadow: 1px 1px 3px #b2dfdb;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #004d40;
     }
 
     /* Header */
     header {
       position: sticky;
       top: 0;
-      background: #fff;
+      background: #ffffffcc;
       padding-bottom: 15px;
       margin-bottom: 40px;
       z-index: 5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      border-radius: 20px;
+      user-select: none;
     }
     header h1 {
       margin: 0;
-      color: #0070f3;
-      font-size: 2rem;
+      color: #00796b;
+      font-size: 2.4rem;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      text-shadow: 2px 2px 5px #80cbc4;
     }
     header p {
       margin: 6px 0 0 0;
-      font-size: 1rem;
-      color: #555;
-    }
-
-    /* Dark mode button */
-    #dark-mode-toggle {
-      position: fixed;
-      top: 15px;
-      right: 20px;
-      background: #0070f3;
-      border: none;
-      color: white;
-      padding: 10px 14px;
-      font-size: 1.6rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-      z-index: 20;
-      line-height: 1;
-      user-select: none;
-    }
-    #dark-mode-toggle:hover {
-      background: #005bb5;
+      font-size: 1.2rem;
+      color: #004d40dd;
+      font-weight: 600;
     }
 
     /* Logos container */
@@ -137,72 +206,94 @@
       gap: 50px;
       flex-wrap: wrap;
       margin-bottom: 25px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    }
+    .logos-container div {
+      text-align: center;
+      user-select: none;
     }
     .logos-container img {
       width: 110px;
       height: auto;
       background: white;
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-      transition: filter 0.3s;
+      padding: 15px;
+      border-radius: 20px;
+      box-shadow:
+        0 6px 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+      filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
+    }
+    .logos-container img:hover {
+      transform: scale(1.1) rotate(3deg);
+      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
+    }
+    .logos-container p {
+      margin-top: 10px;
+      font-weight: 700;
+      color: #004d40dd;
+      font-size: 1.1rem;
     }
 
     /* Chart container */
     #alpha-chart-container {
       max-width: 750px;
       margin: 0 auto;
+      box-shadow:
+        0 10px 20px rgba(0,0,0,0.1);
+      border-radius: 20px;
+      padding: 15px 10px 25px 10px;
+      background: white;
     }
 
     /* Dark mode styles */
     body.dark {
-      background: #121212;
-      color: #ddd;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0f2f1;
     }
     body.dark aside {
-      background: #1f1f1f;
-      color: #ddd;
+      background: linear-gradient(180deg, #00251a, #004d40);
+      color: #80cbc4;
+      box-shadow: 4px 0 15px rgba(0, 100, 80, 0.8);
+    }
+    body.dark aside nav li a {
+      color: #80cbc4;
     }
     body.dark aside nav li a:hover,
     body.dark aside nav li a.active {
-      background: #4fc3f7;
-      color: #1f1f1f;
-      text-decoration: underline;
+      background: #004d40;
+      color: #a7ffeb;
+      box-shadow: 0 0 12px #26a69a;
     }
     body.dark main {
-      background: #1e1e1e;
-      color: #ddd;
+      background: #154a47cc;
+      color: #a7ffeb;
     }
     body.dark section {
-      background: #2c2c2c;
-      color: #ddd;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      background: #0d3b37cc;
+      color: #b2dfdb;
+      box-shadow:
+        0 10px 15px rgba(0, 0, 0, 0.8),
+        inset 0 0 25px rgba(255, 255, 255, 0.1);
     }
     body.dark header {
-      background: #1e1e1e;
-      box-shadow: 0 2px 8px rgba(255,255,255,0.07);
-    }
-    body.dark #dark-mode-toggle {
-      background: #4fc3f7;
-      color: #1f1f1f;
-    }
-    body.dark #dark-mode-toggle:hover {
-      background: #0070f3;
-      color: white;
+      background: #0d3b3788;
+      box-shadow: 0 4px 12px rgba(0, 200, 180, 0.5);
     }
     body.dark .logos-container img {
-      filter: brightness(0.85);
-      background: #444;
+      background: #004d40;
+      filter: drop-shadow(0 2px 8px #00796b);
+    }
+    body.dark .logos-container img:hover {
+      filter: drop-shadow(0 6px 12px #26a69a);
+      transform: scale(1.1) rotate(3deg);
     }
 
     /* Responsive mobile: sidebar collapses */
     @media (max-width: 768px) {
       aside {
-        position: fixed;
-        width: 200px;
-        left: -220px;
-        top: 0;
-        height: 100vh;
+        width: 230px;
+        left: -260px;
         padding-top: 60px;
         transition: left 0.3s ease;
       }
@@ -217,20 +308,25 @@
         position: fixed;
         top: 15px;
         left: 15px;
-        background: #0070f3;
+        background: #00796b;
         border: none;
         color: white;
         padding: 10px 14px;
         font-size: 1.6rem;
-        border-radius: 6px;
+        border-radius: 8px;
         cursor: pointer;
         z-index: 30;
+        box-shadow: 0 2px 10px rgba(0, 121, 107, 0.7);
       }
-      #dark-mode-toggle {
-        top: 60px;
-        right: 20px;
+      .dark-mode-toggle {
+        margin-top: 15px;
+        padding-top: 0;
+        border-top: none;
+        justify-content: flex-start;
+        gap: 10px;
       }
     }
+
   </style>
 </head>
 <body>
@@ -238,18 +334,74 @@
   <!-- Mobile Menu Toggle -->
   <button id="menu-toggle" aria-label="Toggle menu" title="Toggle menu" style="display:none;">☰</button>
 
-  <aside id="sidebar">
-    <h2>Menu</h2>
+  <aside id="sidebar" role="navigation" aria-label="Primary sidebar menu">
+    <h2>Alpha Explorer</h2>
     <nav>
       <ul>
-        <li><a href="#alpha-section" class="nav-link active">Alpha</a></li>
-        <li><a href="#beta-section" class="nav-link">Beta</a></li>
-        <li><a href="#power-law" class="nav-link">Power Law</a></li>
-        <li><a href="#asymmetric-bets" class="nav-link">Asymmetric Bets</a></li>
-        <li><a href="#contrarian-investing" class="nav-link">Contrarian Investing</a></li>
-        <li><a href="#stock-comparison" class="nav-link">Stock Alpha Comparison</a></li>
+        <li>
+          <a href="#alpha-section" class="nav-link active" aria-current="page" tabindex="0" >
+            <!-- Icon: Alpha (𝛼) -->
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛼</text></svg>
+            Alpha
+          </a>
+        </li>
+        <li>
+          <a href="#beta-section" class="nav-link" tabindex="0">
+            <!-- Icon: Beta (𝛽) -->
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛽</text></svg>
+            Beta
+          </a>
+        </li>
+        <li>
+          <a href="#power-law" class="nav-link" tabindex="0">
+            <!-- Icon: Lightning bolt -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Power Law
+          </a>
+        </li>
+        <li>
+          <a href="#asymmetric-bets" class="nav-link" tabindex="0">
+            <!-- Icon: Chart upwards -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <polyline points="6 12 10 16 18 8" />
+              <path d="M6 20h12v-4"/>
+            </svg>
+            Asymmetric Bets
+          </a>
+        </li>
+        <li>
+          <a href="#contrarian-investing" class="nav-link" tabindex="0">
+            <!-- Icon: Undo / reverse -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <polyline points="9 14 4 9 9 4" />
+              <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
+            </svg>
+            Contrarian Investing
+          </a>
+        </li>
+        <li>
+          <a href="#stock-comparison" class="nav-link" tabindex="0">
+            <!-- Icon: Bar chart -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <line x1="12" y1="20" x2="12" y2="10" />
+              <line x1="18" y1="20" x2="18" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="16" />
+            </svg>
+            Stock Comparison
+          </a>
+        </li>
       </ul>
     </nav>
+
+    <div class="dark-mode-toggle" role="region" aria-label="Toggle dark mode">
+      <span>Dark Mode</span>
+      <label class="switch">
+        <input type="checkbox" id="darkModeCheckbox" aria-checked="false" role="switch" />
+        <span class="slider"></span>
+      </label>
+    </div>
   </aside>
 
   <main>
@@ -258,47 +410,47 @@
       <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
     </header>
 
-    <section id="alpha-section">
+    <section id="alpha-section" tabindex="0">
       <h2>What is Alpha?</h2>
       <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
     </section>
 
-    <section id="beta-section">
+    <section id="beta-section" tabindex="0">
       <h2>What is Beta?</h2>
       <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
     </section>
 
-    <section id="power-law">
+    <section id="power-law" tabindex="0">
       <h2>Strategy: Power Law</h2>
       <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
       <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
     </section>
 
-    <section id="asymmetric-bets">
+    <section id="asymmetric-bets" tabindex="0">
       <h2>Strategy: Asymmetric Bets</h2>
       <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
     </section>
 
-    <section id="contrarian-investing">
+    <section id="contrarian-investing" tabindex="0">
       <h2>Strategy: Contrarian Investing</h2>
       <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
     </section>
 
-    <section id="stock-comparison">
+    <section id="stock-comparison" tabindex="0">
       <h2>Stock Alpha Comparison: Nvidia, Palantir, &amp; S&P 500</h2>
 
-      <div class="logos-container">
+      <div class="logos-container" aria-label="Company logos">
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-          <p style="text-align:center;">Nvidia (NVDA)</p>
+          <p>Nvidia (NVDA)</p>
         </div>
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Palantir_Technologies_logo.svg/512px-Palantir_Technologies_logo.svg.png" alt="Palantir Logo" />
-          <p style="text-align:center;">Palantir (PLTR)</p>
+          <p>Palantir (PLTR)</p>
         </div>
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/S%26P_500_Logo.svg/512px-S%26P_500_Logo.svg.png" alt="S&P 500 Logo" />
-          <p style="text-align:center;">S&amp;P 500 Index (Market)</p>
+          <p>S&amp;P 500 Index (Market)</p>
         </div>
       </div>
 
@@ -308,17 +460,14 @@
       </p>
 
       <div id="alpha-chart-container">
-        <canvas id="alphaChart"></canvas>
+        <canvas id="alphaChart" aria-label="Bar chart comparing annual alpha of Nvidia, Palantir, and S&P 500" role="img"></canvas>
       </div>
     </section>
 
-    <footer>
+    <footer style="text-align:center; padding: 15px 0; color:#00796b; font-weight:600; user-select:none;">
       &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
     </footer>
   </main>
-
-  <!-- Dark mode toggle -->
-  <button id="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -355,30 +504,29 @@
       setActiveLink(navLinks[currentIndex]);
     });
 
-    // Dark mode toggle with icon
-    const toggleBtn = document.getElementById('dark-mode-toggle');
+    // Dark mode toggle with icon inside sidebar
+    const darkModeCheckbox = document.getElementById('darkModeCheckbox');
     const body = document.body;
 
-    function updateToggleIcon() {
-      toggleBtn.textContent = body.classList.contains('dark') ? '🌞' : '🌙';
-    }
-
-    // Initialize dark mode on page load
-    if(localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark');
-    } else {
-      body.classList.remove('dark');
-    }
-    updateToggleIcon();
-
-    toggleBtn.addEventListener('click', () => {
-      body.classList.toggle('dark');
-      if(body.classList.contains('dark')) {
-        localStorage.setItem('darkMode', 'enabled');
+    function applyDarkMode(enabled) {
+      if(enabled) {
+        body.classList.add('dark');
+        darkModeCheckbox.setAttribute('aria-checked', 'true');
       } else {
-        localStorage.setItem('darkMode', 'disabled');
+        body.classList.remove('dark');
+        darkModeCheckbox.setAttribute('aria-checked', 'false');
       }
-      updateToggleIcon();
+    }
+
+    // Initialize dark mode from localStorage
+    const savedDarkMode = localStorage.getItem('darkMode') === 'enabled';
+    darkModeCheckbox.checked = savedDarkMode;
+    applyDarkMode(savedDarkMode);
+
+    darkModeCheckbox.addEventListener('change', () => {
+      const enabled = darkModeCheckbox.checked;
+      applyDarkMode(enabled);
+      localStorage.setItem('darkMode', enabled ? 'enabled' : 'disabled');
     });
 
     // Mobile sidebar toggle
@@ -410,19 +558,20 @@
         labels: ['S&P 500 (Market)', 'Nvidia (NVDA)', 'Palantir (PLTR)'],
         datasets: [{
           label: 'Annual Alpha (%)',
-          // Market alpha is baseline zero
-          data: [0, 12.5, 8.3],  // You can update with real values
+          data: [0, 12.5, 8.3],  // Example alpha values - update as needed
           backgroundColor: [
-            'rgba(54, 162, 235, 0.7)',  // S&P blue
-            'rgba(75, 192, 192, 0.7)',  // Nvidia teal
-            'rgba(255, 159, 64, 0.7)'   // Palantir orange
+            'rgba(38, 166, 154, 0.8)',  // teal S&P 500
+            'rgba(102, 187, 106, 0.9)',  // green Nvidia
+            'rgba(255, 193, 7, 0.85)'   // amber Palantir
           ],
           borderColor: [
-            'rgba(54, 162, 235, 1)',
-            'rgba(75, 192, 192, 1)',
-            'rgba(255, 159, 64, 1)'
+            'rgba(0, 77, 64, 1)',
+            'rgba(27, 94, 32, 1)',
+            'rgba(255, 160, 0, 1)'
           ],
-          borderWidth: 1
+          borderWidth: 2,
+          borderRadius: 8,
+          maxBarThickness: 70,
         }]
       },
       options: {
@@ -433,13 +582,34 @@
             max: 15,
             title: {
               display: true,
-              text: 'Alpha %'
+              text: 'Alpha %',
+              color: body.classList.contains('dark') ? '#b2dfdb' : '#004d40',
+              font: { weight: '700', size: 14 }
+            },
+            ticks: {
+              color: body.classList.contains('dark') ? '#b2dfdb' : '#004d40',
+              font: { weight: '600' }
+            },
+            grid: {
+              color: body.classList.contains('dark') ? '#004d4066' : '#c7e4e3',
+            }
+          },
+          x: {
+            ticks: {
+              color: body.classList.contains('dark') ? '#b2dfdb' : '#004d40',
+              font: { weight: '700', size: 14 }
+            },
+            grid: {
+              display: false
             }
           }
         },
         plugins: {
           legend: { display: false },
           tooltip: {
+            backgroundColor: body.classList.contains('dark') ? '#004d40' : '#e0f2f1',
+            titleColor: body.classList.contains('dark') ? '#a7ffeb' : '#004d40',
+            bodyColor: body.classList.contains('dark') ? '#a7ffeb' : '#004d40',
             callbacks: {
               label: ctx => ctx.parsed.y + '% alpha'
             }
