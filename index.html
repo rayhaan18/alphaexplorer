@@ -5,79 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alpha Explorer</title>
   <style>
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f8fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      display: flex;
+      background: #f4f8fc;
       color: #333;
+      display: flex;
+      min-height: 100vh;
       transition: background 0.3s, color 0.3s;
     }
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Sidebar */
     aside {
-      width: 250px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
       background: #002c54;
       color: #fff;
-      height: 100vh;
       padding: 20px;
-      box-sizing: border-box;
       overflow-y: auto;
       transition: background 0.3s;
+      z-index: 10;
     }
     aside h2 {
-      font-size: 1.2rem;
+      font-size: 1.4rem;
+      margin-bottom: 15px;
       border-bottom: 1px solid #ccc;
       padding-bottom: 10px;
-      margin-bottom: 15px;
     }
-    aside ul {
+    aside nav ul {
       list-style: none;
       padding: 0;
-    }
-    aside li {
-      margin: 10px 0;
-      cursor: pointer;
-      user-select: none;
-      transition: color 0.3s;
-    }
-    aside li:hover {
-      text-decoration: underline;
-    }
-    main {
-      flex-grow: 1;
-      padding: 30px;
-      max-width: 900px;
-      overflow-y: auto;
-      transition: background 0.3s, color 0.3s;
-    }
-    section {
-      background: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      display: none;
-      transition: background 0.3s, color 0.3s;
-    }
-    section.active {
-      display: block;
-    }
-    header {
-      text-align: center;
-      padding-bottom: 20px;
-      position: relative;
-    }
-    h1 {
-      color: #0070f3;
       margin: 0;
     }
-    footer {
-      text-align: center;
-      padding: 15px;
-      color: #888;
-      margin-top: 20px;
-      transition: color 0.3s;
+    aside nav li {
+      margin: 12px 0;
     }
-    /* Dark Mode Styles */
+    aside nav li a {
+      display: block;
+      padding: 8px 12px;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+      font-weight: 600;
+    }
+    aside nav li a:hover,
+    aside nav li a.active {
+      background: #4fc3f7;
+      color: #002c54;
+      text-decoration: underline;
+    }
+
+    /* Main content */
+    main {
+      margin-left: 260px;
+      padding: 30px 40px;
+      flex-grow: 1;
+      max-width: 900px;
+      transition: background 0.3s, color 0.3s;
+      scroll-behavior: smooth;
+    }
+    section {
+      margin-bottom: 50px;
+      background: #fff;
+      padding: 20px 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: background 0.3s, color 0.3s;
+    }
+    section h2 {
+      margin-top: 0;
+      color: #0070f3;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      padding-bottom: 15px;
+      margin-bottom: 40px;
+      z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    header h1 {
+      margin: 0;
+      color: #0070f3;
+      font-size: 2rem;
+    }
+    header p {
+      margin: 6px 0 0 0;
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Dark mode button */
+    #dark-mode-toggle {
+      position: fixed;
+      top: 15px;
+      right: 20px;
+      background: #0070f3;
+      border: none;
+      color: white;
+      padding: 10px 14px;
+      font-size: 1.6rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+      z-index: 20;
+      line-height: 1;
+      user-select: none;
+    }
+    #dark-mode-toggle:hover {
+      background: #005bb5;
+    }
+
+    /* Logos container */
+    .logos-container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    .logos-container img {
+      width: 110px;
+      height: auto;
+      background: white;
+      padding: 10px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      transition: filter 0.3s;
+    }
+
+    /* Chart container */
+    #alpha-chart-container {
+      max-width: 750px;
+      margin: 0 auto;
+    }
+
+    /* Dark mode styles */
     body.dark {
       background: #121212;
       color: #ddd;
@@ -86,8 +163,10 @@
       background: #1f1f1f;
       color: #ddd;
     }
-    body.dark aside li:hover {
-      color: #4fc3f7;
+    body.dark aside nav li a:hover,
+    body.dark aside nav li a.active {
+      background: #4fc3f7;
+      color: #1f1f1f;
       text-decoration: underline;
     }
     body.dark main {
@@ -99,226 +178,277 @@
       color: #ddd;
       box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
     }
-    body.dark h1 {
-      color: #4fc3f7;
+    body.dark header {
+      background: #1e1e1e;
+      box-shadow: 0 2px 8px rgba(255,255,255,0.07);
     }
-    body.dark footer {
-      color: #bbb;
+    body.dark #dark-mode-toggle {
+      background: #4fc3f7;
+      color: #1f1f1f;
     }
-    /* Dark mode toggle button with icon */
-    #dark-mode-toggle {
-      position: absolute;
-      top: 10px;
-      right: 20px;
+    body.dark #dark-mode-toggle:hover {
       background: #0070f3;
-      border: none;
       color: white;
-      padding: 8px 12px;
-      font-size: 1.4rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-      line-height: 1;
     }
-    #dark-mode-toggle:hover {
-      background: #005bb5;
+    body.dark .logos-container img {
+      filter: brightness(0.85);
+      background: #444;
     }
-    /* Images container style */
-    .logos-container {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    .logos-container img {
-      width: 100px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      background: white;
-      padding: 8px;
-    }
-    /* Chart container */
-    #alpha-chart-container {
-      max-width: 700px;
-      margin: 0 auto;
+
+    /* Responsive mobile: sidebar collapses */
+    @media (max-width: 768px) {
+      aside {
+        position: fixed;
+        width: 200px;
+        left: -220px;
+        top: 0;
+        height: 100vh;
+        padding-top: 60px;
+        transition: left 0.3s ease;
+      }
+      aside.show {
+        left: 0;
+      }
+      main {
+        margin-left: 0;
+        padding: 20px 15px;
+      }
+      #menu-toggle {
+        position: fixed;
+        top: 15px;
+        left: 15px;
+        background: #0070f3;
+        border: none;
+        color: white;
+        padding: 10px 14px;
+        font-size: 1.6rem;
+        border-radius: 6px;
+        cursor: pointer;
+        z-index: 30;
+      }
+      #dark-mode-toggle {
+        top: 60px;
+        right: 20px;
+      }
     }
   </style>
 </head>
 <body>
 
-<aside>
-  <h2>Explore Topics</h2>
-  <ul id="strategy-list">
-    <li data-target="alpha-section">Alpha</li>
-    <li data-target="beta-section">Beta</li>
-    <li data-target="power-law">Power Law</li>
-    <li data-target="asymmetric-bets">Asymmetric Bets</li>
-    <li data-target="contrarian-investing">Contrarian Investing</li>
-    <li data-target="stock-comparison">Stock Alpha Comparison</li>
-  </ul>
-</aside>
+  <!-- Mobile Menu Toggle -->
+  <button id="menu-toggle" aria-label="Toggle menu" title="Toggle menu" style="display:none;">☰</button>
 
-<main>
-  <header>
-    <h1>Alpha Explorer</h1>
-    <button id="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
-    <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
-  </header>
+  <aside id="sidebar">
+    <h2>Menu</h2>
+    <nav>
+      <ul>
+        <li><a href="#alpha-section" class="nav-link active">Alpha</a></li>
+        <li><a href="#beta-section" class="nav-link">Beta</a></li>
+        <li><a href="#power-law" class="nav-link">Power Law</a></li>
+        <li><a href="#asymmetric-bets" class="nav-link">Asymmetric Bets</a></li>
+        <li><a href="#contrarian-investing" class="nav-link">Contrarian Investing</a></li>
+        <li><a href="#stock-comparison" class="nav-link">Stock Alpha Comparison</a></li>
+      </ul>
+    </nav>
+  </aside>
 
-  <section id="alpha-section" class="active">
-    <h2>What is Alpha?</h2>
-    <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
-  </section>
+  <main>
+    <header>
+      <h1>Alpha Explorer</h1>
+      <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
+    </header>
 
-  <section id="beta-section">
-    <h2>What is Beta?</h2>
-    <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
-  </section>
+    <section id="alpha-section">
+      <h2>What is Alpha?</h2>
+      <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
+    </section>
 
-  <section id="power-law">
-    <h2>Strategy: Power Law</h2>
-    <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
-    <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
-  </section>
+    <section id="beta-section">
+      <h2>What is Beta?</h2>
+      <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
+    </section>
 
-  <section id="asymmetric-bets">
-    <h2>Strategy: Asymmetric Bets</h2>
-    <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
-  </section>
+    <section id="power-law">
+      <h2>Strategy: Power Law</h2>
+      <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
+      <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
+    </section>
 
-  <section id="contrarian-investing">
-    <h2>Strategy: Contrarian Investing</h2>
-    <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
-  </section>
+    <section id="asymmetric-bets">
+      <h2>Strategy: Asymmetric Bets</h2>
+      <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
+    </section>
 
-  <section id="stock-comparison">
-    <h2>Stock Alpha Comparison: Nvidia, Palantir, & S&P 500</h2>
+    <section id="contrarian-investing">
+      <h2>Strategy: Contrarian Investing</h2>
+      <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
+    </section>
 
-    <div class="logos-container">
-      <div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-        <p style="text-align:center;">Nvidia (NVDA)</p>
+    <section id="stock-comparison">
+      <h2>Stock Alpha Comparison: Nvidia, Palantir, &amp; S&P 500</h2>
+
+      <div class="logos-container">
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
+          <p style="text-align:center;">Nvidia (NVDA)</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Palantir_Technologies_logo.svg" alt="Palantir Logo" />
+          <p style="text-align:center;">Palantir (PLTR)</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/S%26P_500_Logo.svg" alt="S&P 500 Logo" />
+          <p style="text-align:center;">S&amp;P 500 Index (Market)</p>
+        </div>
       </div>
-      <div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Palantir_Technologies_logo.svg" alt="Palantir Logo" />
-        <p style="text-align:center;">Palantir (PLTR)</p>
+
+      <p style="max-width:700px; margin:auto; margin-bottom:20px;">
+        The chart below compares the estimated annual alpha (excess return above benchmark) for Nvidia, Palantir, and the S&amp;P 500 index.
+        The market’s alpha (S&amp;P 500) is shown as zero baseline for comparison.
+      </p>
+
+      <div id="alpha-chart-container">
+        <canvas id="alphaChart"></canvas>
       </div>
-      <div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/S%26P_500_Logo.svg" alt="S&P 500 Logo" />
-        <p style="text-align:center;">S&P 500 Index</p>
-      </div>
-    </div>
+    </section>
 
-    <p style="max-width:700px; margin:auto; margin-bottom:20px;">
-      The chart below compares the estimated annual alpha (excess return above benchmark) for Nvidia, Palantir, and the S&P 500 index. Nvidia and Palantir are individual stocks, while the S&P 500 represents the market benchmark.
-    </p>
+    <footer>
+      &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
+    </footer>
+  </main>
 
-    <div id="alpha-chart-container">
-      <canvas id="alphaChart"></canvas>
-    </div>
-  </section>
+  <!-- Dark mode toggle -->
+  <button id="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
 
-  <footer>
-    &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
-  </footer>
-</main>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Sidebar link smooth scrolling & active link highlighting
+    const navLinks = document.querySelectorAll('aside nav a');
+    const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href')));
 
-<script>
-  // Sidebar click logic
-  const strategyItems = document.querySelectorAll('#strategy-list li');
-  strategyItems.forEach(item => {
-    item.addEventListener('click', () => {
-      const targetId = item.getAttribute('data-target');
-      document.querySelectorAll('main section').forEach(sec => {
-        sec.classList.remove('active');
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        document.querySelector(targetId).scrollIntoView({ behavior: 'smooth' });
+        setActiveLink(link);
+        if(window.innerWidth <= 768){
+          sidebar.classList.remove('show'); // close sidebar on mobile after click
+        }
       });
-      const targetSection = document.getElementById(targetId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-      }
     });
-  });
 
-  // Dark mode toggle with icon
-  const toggleBtn = document.getElementById('dark-mode-toggle');
-  const body = document.body;
-
-  function updateToggleIcon() {
-    if (body.classList.contains('dark')) {
-      toggleBtn.textContent = '🌞';  // Sun icon for light mode
-    } else {
-      toggleBtn.textContent = '🌙';  // Moon icon for dark mode
+    function setActiveLink(activeLink) {
+      navLinks.forEach(link => link.classList.remove('active'));
+      activeLink.classList.add('active');
     }
-  }
 
-  // On load, set correct mode and icon
-  if (localStorage.getItem('darkMode') === 'enabled') {
-    body.classList.add('dark');
-  } else {
-    body.classList.remove('dark');
-  }
-  updateToggleIcon();
+    // Highlight nav link on scroll
+    window.addEventListener('scroll', () => {
+      let currentIndex = sections.findIndex((section, i) => {
+        const top = section.getBoundingClientRect().top;
+        return top > 0 && top < window.innerHeight / 2;
+      });
+      if(currentIndex === -1) currentIndex = sections.length - 1;
+      setActiveLink(navLinks[currentIndex]);
+    });
 
-  toggleBtn.addEventListener('click', () => {
-    body.classList.toggle('dark');
-    if (body.classList.contains('dark')) {
-      localStorage.setItem('darkMode', 'enabled');
+    // Dark mode toggle with icon
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    const body = document.body;
+
+    function updateToggleIcon() {
+      toggleBtn.textContent = body.classList.contains('dark') ? '🌞' : '🌙';
+    }
+
+    // Initialize dark mode on page load
+    if(localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark');
     } else {
-      localStorage.setItem('darkMode', 'disabled');
+      body.classList.remove('dark');
     }
     updateToggleIcon();
-  });
 
-  // Chart.js alpha comparison data
-  const ctx = document.getElementById('alphaChart').getContext('2d');
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      if(body.classList.contains('dark')) {
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        localStorage.setItem('darkMode', 'disabled');
+      }
+      updateToggleIcon();
+    });
 
-  const alphaChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Nvidia (NVDA)', 'Palantir (PLTR)', 'S&P 500'],
-      datasets: [{
-        label: 'Annual Alpha (%)',
-        data: [12.5, 8.3, 0],  // Example alpha values — update with real data if you want
-        backgroundColor: [
-          'rgba(75, 192, 192, 0.7)', // Nvidia teal
-          'rgba(255, 159, 64, 0.7)', // Palantir orange
-          'rgba(54, 162, 235, 0.7)'  // S&P 500 blue
-        ],
-        borderColor: [
-          'rgba(75, 192, 192, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(54, 162, 235, 1)'
-        ],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 15,
-          title: {
-            display: true,
-            text: 'Alpha %'
-          }
-        }
+    // Mobile sidebar toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    function checkMobile() {
+      if(window.innerWidth <= 768){
+        menuToggle.style.display = 'block';
+      } else {
+        menuToggle.style.display = 'none';
+        sidebar.classList.remove('show');
+      }
+    }
+    checkMobile();
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+
+    window.addEventListener('resize', checkMobile);
+
+    // Chart.js alpha comparison
+    const ctx = document.getElementById('alphaChart').getContext('2d');
+
+    const alphaChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['S&P 500 (Market)', 'Nvidia (NVDA)', 'Palantir (PLTR)'],
+        datasets: [{
+          label: 'Annual Alpha (%)',
+          // Market alpha is baseline zero
+          data: [0, 12.5, 8.3],  // You can update with real values
+          backgroundColor: [
+            'rgba(54, 162, 235, 0.7)',  // S&P blue
+            'rgba(75, 192, 192, 0.7)',  // Nvidia teal
+            'rgba(255, 159, 64, 0.7)'   // Palantir orange
+          ],
+          borderColor: [
+            'rgba(54, 162, 235, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
       },
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: {
-            label: ctx => ctx.parsed.y + '% alpha'
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 15,
+            title: {
+              display: true,
+              text: 'Alpha %'
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => ctx.parsed.y + '% alpha'
+            }
           }
         }
       }
-    }
-  });
-</script>
+    });
+  </script>
 
 </body>
 </html>
+
