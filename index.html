@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alpha Explorer</title>
   <style>
+    /* (Keep your existing styles here for layout, dark mode, sidebar, etc.) */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f8fc;
@@ -45,7 +46,7 @@
     main {
       flex-grow: 1;
       padding: 30px;
-      max-width: 800px;
+      max-width: 900px;
       overflow-y: auto;
       transition: background 0.3s, color 0.3s;
     }
@@ -77,35 +78,6 @@
       margin-top: 20px;
       transition: color 0.3s;
     }
-    /* Dark Mode Styles */
-    body.dark {
-      background: #121212;
-      color: #ddd;
-    }
-    body.dark aside {
-      background: #1f1f1f;
-      color: #ddd;
-    }
-    body.dark aside li:hover {
-      color: #4fc3f7;
-      text-decoration: underline;
-    }
-    body.dark main {
-      background: #1e1e1e;
-      color: #ddd;
-    }
-    body.dark section {
-      background: #2c2c2c;
-      color: #ddd;
-      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
-    }
-    body.dark h1 {
-      color: #4fc3f7;
-    }
-    body.dark footer {
-      color: #bbb;
-    }
-    /* Dark mode toggle button */
     #dark-mode-toggle {
       position: absolute;
       top: 10px;
@@ -122,6 +94,26 @@
     #dark-mode-toggle:hover {
       background: #005bb5;
     }
+    /* Images container style */
+    .logos-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      margin-bottom: 20px;
+    }
+    .logos-container img {
+      width: 100px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      background: white;
+      padding: 8px;
+    }
+    /* Chart container */
+    #alpha-chart-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 <body>
@@ -134,6 +126,7 @@
     <li data-target="power-law">Power Law</li>
     <li data-target="asymmetric-bets">Asymmetric Bets</li>
     <li data-target="contrarian-investing">Contrarian Investing</li>
+    <li data-target="stock-comparison">Stock Alpha Comparison</li>
   </ul>
 </aside>
 
@@ -144,6 +137,7 @@
     <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
   </header>
 
+  <!-- Existing sections here -->
   <section id="alpha-section" class="active">
     <h2>What is Alpha?</h2>
     <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
@@ -170,10 +164,41 @@
     <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
   </section>
 
+  <!-- New section: Stock Alpha Comparison -->
+  <section id="stock-comparison">
+    <h2>Stock Alpha Comparison: Nvidia, Palantir, & S&P 500</h2>
+
+    <div class="logos-container">
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
+        <p style="text-align:center;">Nvidia (NVDA)</p>
+      </div>
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Palantir_Technologies_logo.svg" alt="Palantir Logo" />
+        <p style="text-align:center;">Palantir (PLTR)</p>
+      </div>
+      <div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/S%26P_500_Logo.svg" alt="S&P 500 Logo" />
+        <p style="text-align:center;">S&P 500 Index</p>
+      </div>
+    </div>
+
+    <p style="max-width:700px; margin:auto; margin-bottom:20px;">
+      The chart below compares the estimated annual alpha (excess return above benchmark) for Nvidia, Palantir, and the S&P 500 index. Nvidia and Palantir are individual stocks, while the S&P 500 represents the market benchmark.
+    </p>
+
+    <div id="alpha-chart-container">
+      <canvas id="alphaChart"></canvas>
+    </div>
+  </section>
+
   <footer>
     &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
   </footer>
 </main>
+
+<!-- Load Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   // Sidebar click logic
@@ -195,7 +220,6 @@
   const toggleBtn = document.getElementById('dark-mode-toggle');
   const body = document.body;
 
-  // Load saved mode
   if (localStorage.getItem('darkMode') === 'enabled') {
     body.classList.add('dark');
     toggleBtn.textContent = 'Light Mode';
@@ -211,7 +235,56 @@
       localStorage.setItem('darkMode', 'disabled');
     }
   });
+
+  // Chart.js alpha comparison data
+  const ctx = document.getElementById('alphaChart').getContext('2d');
+
+  const alphaChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Nvidia (NVDA)', 'Palantir (PLTR)', 'S&P 500'],
+      datasets: [{
+        label: 'Annual Alpha (%)',
+        data: [12.5, 8.3, 0],  // Example alpha values (you can update with real data)
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.7)', // Nvidia teal
+          'rgba(255, 159, 64, 0.7)', // Palantir orange
+          'rgba(54, 162, 235, 0.7)'  // S&P 500 blue
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(54, 162, 235, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15,
+          title: {
+            display: true,
+            text: 'Alpha %'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ctx.parsed.y + '% alpha'
+          }
+        }
+      }
+    }
+  });
 </script>
 
 </body>
 </html>
+
