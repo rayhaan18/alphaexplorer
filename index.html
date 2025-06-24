@@ -10,6 +10,8 @@
       background: #f4f8fc;
       margin: 0;
       display: flex;
+      color: #333;
+      transition: background 0.3s, color 0.3s;
     }
     aside {
       width: 250px;
@@ -18,11 +20,14 @@
       height: 100vh;
       padding: 20px;
       box-sizing: border-box;
+      overflow-y: auto;
+      transition: background 0.3s;
     }
     aside h2 {
       font-size: 1.2rem;
       border-bottom: 1px solid #ccc;
       padding-bottom: 10px;
+      margin-bottom: 15px;
     }
     aside ul {
       list-style: none;
@@ -31,11 +36,18 @@
     aside li {
       margin: 10px 0;
       cursor: pointer;
+      user-select: none;
+      transition: color 0.3s;
+    }
+    aside li:hover {
+      text-decoration: underline;
     }
     main {
       flex-grow: 1;
       padding: 30px;
       max-width: 800px;
+      overflow-y: auto;
+      transition: background 0.3s, color 0.3s;
     }
     section {
       background: #fff;
@@ -43,19 +55,72 @@
       margin-bottom: 20px;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      display: none;
+      transition: background 0.3s, color 0.3s;
+    }
+    section.active {
+      display: block;
     }
     header {
       text-align: center;
       padding-bottom: 20px;
+      position: relative;
     }
     h1 {
       color: #0070f3;
+      margin: 0;
     }
     footer {
       text-align: center;
       padding: 15px;
       color: #888;
       margin-top: 20px;
+      transition: color 0.3s;
+    }
+    /* Dark Mode Styles */
+    body.dark {
+      background: #121212;
+      color: #ddd;
+    }
+    body.dark aside {
+      background: #1f1f1f;
+      color: #ddd;
+    }
+    body.dark aside li:hover {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+    body.dark main {
+      background: #1e1e1e;
+      color: #ddd;
+    }
+    body.dark section {
+      background: #2c2c2c;
+      color: #ddd;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+    body.dark h1 {
+      color: #4fc3f7;
+    }
+    body.dark footer {
+      color: #bbb;
+    }
+    /* Dark mode toggle button */
+    #dark-mode-toggle {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: #0070f3;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    #dark-mode-toggle:hover {
+      background: #005bb5;
     }
   </style>
 </head>
@@ -63,37 +128,88 @@
 
 <aside>
   <h2>Strategies to Create Alpha</h2>
-  <ul>
-    <li><strong>Power Law</strong></li>
+  <ul id="strategy-list">
+    <li data-target="power-law">Power Law</li>
+    <li data-target="asymmetric-bets">Asymmetric Bets</li>
+    <li data-target="contrarian-investing">Contrarian Investing</li>
   </ul>
 </aside>
 
 <main>
   <header>
     <h1>Alpha Explorer</h1>
+    <button id="dark-mode-toggle">Dark Mode</button>
     <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
   </header>
 
-  <section>
+  <section id="alpha-section" class="active">
     <h2>What is Alpha?</h2>
     <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
   </section>
 
-  <section>
+  <section id="beta-section">
     <h2>What is Beta?</h2>
     <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
   </section>
 
-  <section>
+  <section id="power-law">
     <h2>Strategy: Power Law</h2>
-    <p>The Power Law, as described by Peter Thiel, means that **one investment can outperform all others combined**. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
+    <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
     <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
+  </section>
+
+  <section id="asymmetric-bets">
+    <h2>Strategy: Asymmetric Bets</h2>
+    <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
+  </section>
+
+  <section id="contrarian-investing">
+    <h2>Strategy: Contrarian Investing</h2>
+    <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
   </section>
 
   <footer>
     &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
   </footer>
 </main>
+
+<script>
+  // Sidebar strategy click logic
+  const strategyItems = document.querySelectorAll('#strategy-list li');
+  strategyItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const targetId = item.getAttribute('data-target');
+      document.querySelectorAll('main section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.add('active');
+      }
+    });
+  });
+
+  // Dark mode toggle
+  const toggleBtn = document.getElementById('dark-mode-toggle');
+  const body = document.body;
+
+  // Load saved mode
+  if (localStorage.getItem('darkMode') === 'enabled') {
+    body.classList.add('dark');
+    toggleBtn.textContent = 'Light Mode';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    if (body.classList.contains('dark')) {
+      toggleBtn.textContent = 'Light Mode';
+      localStorage.setItem('darkMode', 'enabled');
+    } else {
+      toggleBtn.textContent = 'Dark Mode';
+      localStorage.setItem('darkMode', 'disabled');
+    }
+  });
+</script>
 
 </body>
 </html>
