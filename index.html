@@ -127,8 +127,10 @@
 <body>
 
 <aside>
-  <h2>Strategies to Create Alpha</h2>
+  <h2>Explore Topics</h2>
   <ul id="strategy-list">
+    <li data-target="alpha-section">Alpha</li>
+    <li data-target="beta-section">Beta</li>
     <li data-target="power-law">Power Law</li>
     <li data-target="asymmetric-bets">Asymmetric Bets</li>
     <li data-target="contrarian-investing">Contrarian Investing</li>
@@ -174,7 +176,7 @@
 </main>
 
 <script>
-  // Sidebar strategy click logic
+  // Sidebar click logic
   const strategyItems = document.querySelectorAll('#strategy-list li');
   strategyItems.forEach(item => {
     item.addEventListener('click', () => {
