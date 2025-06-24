@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Alpha Explorer</title>
   <style>
-    /* (Keep your existing styles here for layout, dark mode, sidebar, etc.) */
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f8fc;
@@ -78,6 +77,35 @@
       margin-top: 20px;
       transition: color 0.3s;
     }
+    /* Dark Mode Styles */
+    body.dark {
+      background: #121212;
+      color: #ddd;
+    }
+    body.dark aside {
+      background: #1f1f1f;
+      color: #ddd;
+    }
+    body.dark aside li:hover {
+      color: #4fc3f7;
+      text-decoration: underline;
+    }
+    body.dark main {
+      background: #1e1e1e;
+      color: #ddd;
+    }
+    body.dark section {
+      background: #2c2c2c;
+      color: #ddd;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+    body.dark h1 {
+      color: #4fc3f7;
+    }
+    body.dark footer {
+      color: #bbb;
+    }
+    /* Dark mode toggle button with icon */
     #dark-mode-toggle {
       position: absolute;
       top: 10px;
@@ -86,10 +114,11 @@
       border: none;
       color: white;
       padding: 8px 12px;
-      font-size: 0.9rem;
+      font-size: 1.4rem;
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      line-height: 1;
     }
     #dark-mode-toggle:hover {
       background: #005bb5;
@@ -100,6 +129,7 @@
       justify-content: center;
       gap: 40px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
     }
     .logos-container img {
       width: 100px;
@@ -133,11 +163,10 @@
 <main>
   <header>
     <h1>Alpha Explorer</h1>
-    <button id="dark-mode-toggle">Dark Mode</button>
+    <button id="dark-mode-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
     <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
   </header>
 
-  <!-- Existing sections here -->
   <section id="alpha-section" class="active">
     <h2>What is Alpha?</h2>
     <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
@@ -164,7 +193,6 @@
     <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
   </section>
 
-  <!-- New section: Stock Alpha Comparison -->
   <section id="stock-comparison">
     <h2>Stock Alpha Comparison: Nvidia, Palantir, & S&P 500</h2>
 
@@ -197,7 +225,6 @@
   </footer>
 </main>
 
-<!-- Load Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -216,24 +243,34 @@
     });
   });
 
-  // Dark mode toggle
+  // Dark mode toggle with icon
   const toggleBtn = document.getElementById('dark-mode-toggle');
   const body = document.body;
 
+  function updateToggleIcon() {
+    if (body.classList.contains('dark')) {
+      toggleBtn.textContent = '🌞';  // Sun icon for light mode
+    } else {
+      toggleBtn.textContent = '🌙';  // Moon icon for dark mode
+    }
+  }
+
+  // On load, set correct mode and icon
   if (localStorage.getItem('darkMode') === 'enabled') {
     body.classList.add('dark');
-    toggleBtn.textContent = 'Light Mode';
+  } else {
+    body.classList.remove('dark');
   }
+  updateToggleIcon();
 
   toggleBtn.addEventListener('click', () => {
     body.classList.toggle('dark');
     if (body.classList.contains('dark')) {
-      toggleBtn.textContent = 'Light Mode';
       localStorage.setItem('darkMode', 'enabled');
     } else {
-      toggleBtn.textContent = 'Dark Mode';
       localStorage.setItem('darkMode', 'disabled');
     }
+    updateToggleIcon();
   });
 
   // Chart.js alpha comparison data
@@ -245,7 +282,7 @@
       labels: ['Nvidia (NVDA)', 'Palantir (PLTR)', 'S&P 500'],
       datasets: [{
         label: 'Annual Alpha (%)',
-        data: [12.5, 8.3, 0],  // Example alpha values (you can update with real data)
+        data: [12.5, 8.3, 0],  // Example alpha values — update with real data if you want
         backgroundColor: [
           'rgba(75, 192, 192, 0.7)', // Nvidia teal
           'rgba(255, 159, 64, 0.7)', // Palantir orange
@@ -272,9 +309,7 @@
         }
       },
       plugins: {
-        legend: {
-          display: false
-        },
+        legend: { display: false },
         tooltip: {
           callbacks: {
             label: ctx => ctx.parsed.y + '% alpha'
@@ -287,4 +322,3 @@
 
 </body>
 </html>
-
