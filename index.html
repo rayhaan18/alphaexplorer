@@ -8,17 +8,34 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f4f8fc;
-      color: #333;
-      max-width: 900px;
-      margin: auto;
+      margin: 0;
+      display: flex;
+    }
+    aside {
+      width: 250px;
+      background: #002c54;
+      color: #fff;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    aside h2 {
+      font-size: 1.2rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    aside ul {
+      list-style: none;
+      padding: 0;
+    }
+    aside li {
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    main {
+      flex-grow: 1;
       padding: 30px;
-    }
-    header {
-      text-align: center;
-      padding-bottom: 20px;
-    }
-    h1 {
-      color: #0070f3;
+      max-width: 800px;
     }
     section {
       background: #fff;
@@ -27,38 +44,56 @@
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    header {
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    h1 {
+      color: #0070f3;
+    }
     footer {
       text-align: center;
       padding: 15px;
       color: #888;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Alpha Explorer</h1>
-  <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
-</header>
+<aside>
+  <h2>Strategies to Create Alpha</h2>
+  <ul>
+    <li><strong>Power Law</strong></li>
+  </ul>
+</aside>
 
-<section>
-  <h2>What is Alpha?</h2>
-  <p>Alpha measures the excess return of an investment relative to the return of a benchmark index. A high alpha means you're beating the market!</p>
-</section>
+<main>
+  <header>
+    <h1>Alpha Explorer</h1>
+    <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
+  </header>
 
-<section>
-  <h2>What is Beta?</h2>
-  <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
-</section>
+  <section>
+    <h2>What is Alpha?</h2>
+    <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
+  </section>
 
-<section>
-  <h2>Why It Matters</h2>
-  <p>If you want to become an investor, understanding alpha and beta helps you measure risk and reward. AlphaExplorer makes these ideas simple and exciting for teens and beginners.</p>
-</section>
+  <section>
+    <h2>What is Beta?</h2>
+    <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
+  </section>
 
-<footer>
-  &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
-</footer>
+  <section>
+    <h2>Strategy: Power Law</h2>
+    <p>The Power Law, as described by Peter Thiel, means that **one investment can outperform all others combined**. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
+    <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
+  </section>
+
+  <footer>
+    &copy; 2025 AlphaExplorer.ca | Built by a 15-year-old finance enthusiast.
+  </footer>
+</main>
 
 </body>
 </html>
