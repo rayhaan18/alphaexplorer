@@ -12,17 +12,23 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-      color: #1a237e;
+      background: #F5F7FA;
+      color: #1A1A1A;
       display: flex;
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
+      scroll-behavior: smooth;
     }
     a {
-      color: inherit;
+      color: #003366;
       text-decoration: none;
       cursor: pointer;
+      transition: color 0.3s ease;
     }
+    a:hover, a.active {
+      color: #D4AF37;
+    }
+
     /* Sidebar */
     aside {
       position: fixed;
@@ -30,23 +36,25 @@
       top: 0;
       width: 280px;
       height: 100vh;
-      background: linear-gradient(180deg, #1565c0, #0d47a1);
-      color: #e3f2fd;
-      padding: 25px 20px;
+      background: #003366;
+      color: #D4AF37;
+      padding: 30px 25px;
       overflow-y: auto;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.2);
-      z-index: 10;
+      box-shadow: 4px 0 12px rgba(0,0,0,0.15);
+      z-index: 20;
       display: flex;
       flex-direction: column;
       transition: background 0.3s;
     }
     aside h2 {
       font-size: 1.8rem;
-      margin-bottom: 30px;
-      font-weight: 800;
-      letter-spacing: 1.3px;
+      margin-bottom: 35px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
       user-select: none;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+      color: #D4AF37;
+      text-shadow: 1px 1px 2px #001A33;
     }
     aside nav {
       flex-grow: 1;
@@ -58,51 +66,50 @@
     }
     aside nav li {
       margin: 18px 0;
-      display: flex;
-      align-items: center;
-      gap: 14px;
     }
     aside nav li a {
-      flex-grow: 1;
-      padding: 10px 18px;
-      border-radius: 10px;
-      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 12px;
-      transition: background 0.3s, color 0.3s;
-      color: #bbdefb;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 10px;
+      color: #D4AF37;
       user-select: none;
+      transition: background 0.3s, color 0.3s;
+      font-size: 1.1rem;
     }
     aside nav li a:hover,
     aside nav li a.active {
-      background: #ff9100;
-      color: #311b00;
-      box-shadow: 0 3px 12px rgba(255,145,0,0.85);
+      background: #D4AF37;
+      color: #003366;
+      box-shadow: 0 3px 10px rgba(212, 175, 55, 0.6);
     }
     aside nav li a svg {
       width: 22px;
       height: 22px;
       fill: currentColor;
+      flex-shrink: 0;
     }
 
     /* Dark mode toggle */
     .dark-mode-toggle {
       margin-top: auto;
-      padding-top: 20px;
-      border-top: 1px solid #1976d2;
+      padding-top: 25px;
+      border-top: 1px solid #002244;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: #bbdefb;
-      font-weight: 700;
+      font-weight: 600;
       user-select: none;
+      color: #D4AF37;
+      font-size: 1rem;
     }
     .switch {
       position: relative;
       display: inline-block;
-      width: 54px;
-      height: 30px;
+      width: 52px;
+      height: 28px;
     }
     .switch input {
       opacity: 0;
@@ -113,63 +120,88 @@
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #bbdefb;
+      background-color: #D4AF37;
       border-radius: 34px;
-      transition: .4s;
+      transition: 0.4s;
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
     }
     .slider:before {
       position: absolute;
       content: "";
-      height: 24px; width: 24px;
+      height: 22px;
+      width: 22px;
       left: 3px;
       bottom: 3px;
-      background-color: #1565c0;
+      background-color: #003366;
       border-radius: 50%;
-      transition: .4s;
+      transition: 0.4s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
     input:checked + .slider {
-      background-color: #ff9100;
+      background-color: #003366;
+      box-shadow: inset 0 0 6px rgba(212,175,55,0.8);
     }
     input:checked + .slider:before {
       transform: translateX(24px);
-      background-color: #bf360c;
+      background-color: #D4AF37;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+
+    /* Hamburger Menu Button */
+    #menu-toggle {
+      display: none;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background: #003366;
+      border: none;
+      color: #D4AF37;
+      padding: 12px 16px;
+      font-size: 1.8rem;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 40;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    #menu-toggle:hover {
+      background-color: #002244;
     }
 
     /* Main content */
     main {
       margin-left: 280px;
-      padding: 36px 60px;
+      padding: 40px 60px;
       flex-grow: 1;
-      max-width: 960px;
+      max-width: 1000px;
       transition: background 0.3s, color 0.3s;
-      scroll-behavior: smooth;
       user-select: text;
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow:
-        0 10px 25px rgba(0,0,0,0.12);
     }
     section {
-      margin-bottom: 72px;
-      padding: 28px 36px;
-      border-radius: 22px;
-      background: #f5f7fa;
+      margin-bottom: 70px;
+      background: #ffffff;
+      padding: 30px 35px;
+      border-radius: 20px;
       box-shadow:
-        0 6px 15px rgba(0,0,0,0.07);
+        0 12px 20px rgba(0,0,0,0.08),
+        inset 0 0 20px rgba(255,255,255,0.85);
       transition: background 0.3s, color 0.3s;
     }
     section h2 {
       margin-top: 0;
-      color: #0d47a1;
-      font-weight: 900;
+      color: #003366;
+      font-weight: 700;
       font-size: 2rem;
-      letter-spacing: 0.04em;
-      text-shadow: 1px 1px 3px #bbdefb;
+      letter-spacing: 0.05em;
+      margin-bottom: 18px;
+      text-shadow: 1px 1px 3px #D4AF37;
     }
     p {
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       line-height: 1.7;
-      color: #1a237e;
+      color: #1A1A1A;
+      max-width: 720px;
     }
 
     /* Header */
@@ -177,147 +209,130 @@
       position: sticky;
       top: 0;
       background: #ffffffcc;
-      padding-bottom: 20px;
-      margin-bottom: 48px;
+      padding-bottom: 18px;
+      margin-bottom: 50px;
       z-index: 5;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.06);
       border-radius: 20px;
       user-select: none;
+      text-align: center;
     }
     header h1 {
       margin: 0;
-      color: #ff9100;
-      font-size: 2.8rem;
+      color: #003366;
+      font-size: 3rem;
       font-weight: 900;
       letter-spacing: 2px;
-      text-shadow: 2px 2px 6px #ffc870;
+      text-shadow: 3px 3px 6px #D4AF37;
     }
     header p {
-      margin: 8px 0 0 0;
-      font-size: 1.3rem;
-      color: #ff910055;
+      margin: 10px 0 0 0;
+      font-size: 1.4rem;
+      color: #003366cc;
       font-weight: 700;
+      font-style: italic;
     }
 
     /* Logos container */
     .logos-container {
       display: flex;
       justify-content: center;
-      gap: 48px;
+      gap: 60px;
       flex-wrap: wrap;
-      margin-bottom: 32px;
-      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+      margin-bottom: 30px;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
     }
     .logos-container div {
       text-align: center;
       user-select: none;
     }
     .logos-container img {
-      width: 120px;
+      width: 130px;
       height: auto;
       background: white;
-      padding: 16px;
-      border-radius: 22px;
+      padding: 20px;
+      border-radius: 25px;
       box-shadow:
-        0 8px 15px rgba(0,0,0,0.18);
+        0 8px 18px rgba(0,0,0,0.16);
       transition: transform 0.3s ease;
       cursor: pointer;
-      filter: drop-shadow(0 0 1px rgba(0,0,0,0.12));
+      filter: drop-shadow(0 0 2px rgba(0,0,0,0.12));
     }
     .logos-container img:hover {
-      transform: scale(1.1) rotate(3deg);
-      filter: drop-shadow(0 7px 15px rgba(255,145,0,0.85));
+      transform: scale(1.15) rotate(3deg);
+      filter: drop-shadow(0 8px 15px rgba(0,0,0,0.3));
     }
     .logos-container p {
       margin-top: 12px;
       font-weight: 700;
-      color: #ff910055;
+      color: #003366cc;
       font-size: 1.15rem;
     }
 
     /* Chart container */
     #alpha-chart-container {
-      max-width: 780px;
+      max-width: 800px;
       margin: 0 auto;
       box-shadow:
-        0 12px 28px rgba(0,0,0,0.15);
-      border-radius: 22px;
-      padding: 18px 14px 30px 14px;
+        0 14px 30px rgba(0,0,0,0.12);
+      border-radius: 25px;
+      padding: 20px 15px 30px 15px;
       background: white;
-    }
-
-    /* Hamburger menu toggle button */
-    #menu-toggle {
-      display: none;
-      position: fixed;
-      top: 18px;
-      left: 18px;
-      background: #ff9100;
-      border: none;
-      color: white;
-      padding: 12px 16px;
-      font-size: 1.8rem;
-      border-radius: 10px;
-      cursor: pointer;
-      z-index: 30;
-      box-shadow: 0 3px 12px rgba(255,145,0,0.85);
-      user-select: none;
-      transition: background 0.3s ease;
-    }
-    #menu-toggle:hover {
-      background: #ffb347;
     }
 
     /* Dark mode styles */
     body.dark {
-      background: linear-gradient(135deg, #0b3d91, #143d6a);
-      color: #ffe0b2;
+      background: #0E1A2B;
+      color: #E8E8E8;
     }
     body.dark aside {
-      background: linear-gradient(180deg, #0b265f, #0d2a70);
-      color: #ffe0b2;
-      box-shadow: 4px 0 20px rgba(255, 150, 0, 0.9);
+      background: #001A33;
+      color: #F5C518;
+      box-shadow: 4px 0 15px rgba(212,175,55,0.8);
     }
     body.dark aside nav li a {
-      color: #ffe0b2;
+      color: #F5C518;
     }
     body.dark aside nav li a:hover,
     body.dark aside nav li a.active {
-      background: #ffb347;
-      color: #3e2100;
-      box-shadow: 0 0 15px #ff9100;
+      background: #F5C518;
+      color: #001A33;
+      box-shadow: 0 3px 12px rgba(212,175,55,0.9);
     }
     body.dark main {
-      background: #1e2e5bdd;
-      color: #ffcc80;
-      box-shadow:
-        0 10px 25px rgba(0,0,0,0.7);
+      background: #11243F;
+      color: #E8E8E8;
     }
     body.dark section {
-      background: #233463cc;
-      color: #ffe0b2;
+      background: #123060;
+      color: #F5C518;
       box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.8);
+        0 12px 20px rgba(0, 0, 0, 0.9),
+        inset 0 0 25px rgba(255, 255, 255, 0.15);
     }
     body.dark header {
-      background: #233463cc;
-      box-shadow: 0 6px 18px rgba(255, 165, 0, 0.6);
+      background: #123060cc;
+      box-shadow: 0 6px 18px rgba(212,175,55,0.7);
     }
     body.dark .logos-container img {
-      background: #ff9100;
-      filter: drop-shadow(0 3px 12px #ffcc80);
+      background: #00264D;
+      filter: drop-shadow(0 3px 10px #F5C518);
     }
     body.dark .logos-container img:hover {
-      filter: drop-shadow(0 8px 20px #ffb347);
-      transform: scale(1.1) rotate(3deg);
+      filter: drop-shadow(0 10px 18px #F5C518);
+      transform: scale(1.15) rotate(3deg);
+    }
+    body.dark #alpha-chart-container {
+      background: #001F3D;
+      box-shadow: 0 14px 30px rgba(212,175,55,0.8);
     }
 
-    /* Responsive mobile */
+    /* Responsive: sidebar collapses */
     @media (max-width: 768px) {
       aside {
         width: 240px;
-        left: -280px;
-        padding-top: 68px;
+        left: -260px;
+        padding-top: 70px;
         transition: left 0.3s ease;
       }
       aside.show {
@@ -325,27 +340,25 @@
       }
       main {
         margin-left: 0;
-        padding: 28px 20px;
+        padding: 25px 20px;
         max-width: 100%;
-        border-radius: 0;
-        box-shadow: none;
       }
       #menu-toggle {
         display: block;
       }
       .dark-mode-toggle {
-        margin-top: 18px;
+        margin-top: 15px;
         padding-top: 0;
         border-top: none;
         justify-content: flex-start;
-        gap: 14px;
+        gap: 10px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hamburger menu toggle for mobile -->
+  <!-- Hamburger Menu Toggle -->
   <button id="menu-toggle" aria-label="Toggle menu" title="Toggle menu">☰</button>
 
   <aside id="sidebar" role="navigation" aria-label="Primary sidebar menu">
@@ -353,7 +366,7 @@
     <nav>
       <ul>
         <li>
-          <a href="#alpha-section" class="nav-link active" aria-current="page" tabindex="0">
+          <a href="#alpha-section" class="nav-link active" aria-current="page" tabindex="0" >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛼</text></svg>
             Alpha
           </a>
@@ -415,7 +428,7 @@
   <main>
     <header>
       <h1>Alpha Explorer</h1>
-      <p>Building Alpha. Navigating Risk.</p>
+      <p><em>Building Alpha. Navigating Risk.</em></p>
     </header>
 
     <section id="alpha-section" tabindex="0">
@@ -441,143 +454,137 @@
 
     <section id="contrarian-investing" tabindex="0">
       <h2>Strategy: Contrarian Investing</h2>
-      <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
+      <p>Contrarian investing means going against the crowd — buying when others sell and selling when others buy. This can uncover undervalued opportunities and capture alpha by exploiting market inefficiencies.</p>
     </section>
 
     <section id="stock-comparison" tabindex="0">
-      <h2>Stock Alpha Comparison: Nvidia, Palantir, &amp; S&P 500</h2>
+      <h2>Stock Alpha Comparison</h2>
 
-      <div class="logos-container" aria-label="Company logos">
+      <div class="logos-container" aria-label="Stock logos and alpha values">
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Palantir_company_logo.png" alt="Palantir Technologies logo" />
-          <p>Palantir (PLTR)</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Palantir_company_logo.png" alt="Palantir Technologies Logo" />
+          <p>Palantir: 12.6% Alpha</p>
+        </div>
+        <div>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Nvidia_logo.svg" alt="Nvidia Logo" style="width:120px;"/>
+          <p>Nvidia: 17.2% Alpha</p>
         </div>
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/S%26P_500.png" alt="S&P 500 Logo" />
-          <p>S&P 500</p>
-        </div>
-        <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia logo" />
-          <p>Nvidia (NVDA)</p>
+          <p>S&P 500: 1.1% Alpha</p>
         </div>
       </div>
 
       <div id="alpha-chart-container">
-        <canvas id="alphaChart" aria-label="Alpha values chart" role="img"></canvas>
+        <canvas id="alphaChart" width="700" height="350" role="img" aria-label="Bar chart comparing alpha values"></canvas>
       </div>
     </section>
   </main>
 
+  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <script>
     // Hamburger menu toggle for mobile
-    const menuToggleBtn = document.getElementById('menu-toggle');
+    const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
-    menuToggleBtn.addEventListener('click', () => {
+
+    menuToggle.addEventListener('click', () => {
       sidebar.classList.toggle('show');
     });
 
     // Dark mode toggle
     const darkModeCheckbox = document.getElementById('darkModeCheckbox');
-
-    function setDarkMode(enabled) {
-      if (enabled) {
-        document.body.classList.add('dark');
-        darkModeCheckbox.setAttribute('aria-checked', 'true');
-      } else {
-        document.body.classList.remove('dark');
-        darkModeCheckbox.setAttribute('aria-checked', 'false');
-      }
-      localStorage.setItem('darkMode', enabled ? 'true' : 'false');
-      updateChartColors();
-    }
-
-    // Load saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode');
-    if (savedDarkMode === 'true') {
-      setDarkMode(true);
-      darkModeCheckbox.checked = true;
-    }
-
     darkModeCheckbox.addEventListener('change', () => {
-      setDarkMode(darkModeCheckbox.checked);
+      document.body.classList.toggle('dark', darkModeCheckbox.checked);
+      darkModeCheckbox.setAttribute('aria-checked', darkModeCheckbox.checked);
     });
 
-    // Nav link active state + close sidebar on mobile
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', e => {
-        navLinks.forEach(l => l.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        if(window.innerWidth <= 768) {
-          sidebar.classList.remove('show');
+    // Activate link highlighting on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('aside nav a');
+
+    window.addEventListener('scroll', () => {
+      let currentSection = null;
+      const scrollPos = window.scrollY + window.innerHeight / 3;
+
+      sections.forEach(section => {
+        if (scrollPos >= section.offsetTop) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === currentSection) {
+          link.classList.add('active');
         }
       });
     });
 
-    // Chart.js Alpha Bar Chart Setup
+    // Chart data and config
     const ctx = document.getElementById('alphaChart').getContext('2d');
-
-    const alphaData = {
-      labels: ['S&P 500', 'Nvidia (NVDA)', 'Palantir (PLTR)'],
-      datasets: [{
-        label: 'Alpha %',
-        data: [1.1, 17.2, 12.6],
-        backgroundColor: [
-          '#ff9100',
-          '#1565c0',
-          '#ff9100'
-        ],
-        borderRadius: 14,
-        borderSkipped: false,
-      }]
-    };
-
     const alphaChart = new Chart(ctx, {
       type: 'bar',
-      data: alphaData,
+      data: {
+        labels: ['Palantir', 'Nvidia', 'S&P 500'],
+        datasets: [{
+          label: 'Alpha (%)',
+          data: [12.6, 17.2, 1.1],
+          backgroundColor: [
+            '#D4AF37',
+            '#003366',
+            '#7F9AC9',
+          ],
+          borderRadius: 10,
+          borderSkipped: false,
+          maxBarThickness: 60
+        }]
+      },
       options: {
         responsive: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => ctx.parsed.y + '% Alpha'
-            }
-          },
-        },
         scales: {
           y: {
             beginAtZero: true,
-            max: 20,
             ticks: {
-              stepSize: 5,
-              color: document.body.classList.contains('dark') ? '#ffcc80' : '#1a237e',
-              font: {weight: '700'}
+              stepSize: 2,
+              color: document.body.classList.contains('dark') ? '#F5C518' : '#003366',
+              font: {weight: '600', size: 14},
             },
             grid: {
-              color: document.body.classList.contains('dark') ? '#ffb34788' : '#c3cfe2',
+              color: document.body.classList.contains('dark') ? '#254060' : '#DDDDDD'
             }
           },
           x: {
             ticks: {
-              color: document.body.classList.contains('dark') ? '#ffcc80' : '#1a237e',
-              font: {weight: '700'}
+              color: document.body.classList.contains('dark') ? '#F5C518' : '#003366',
+              font: {weight: '700', size: 14}
             },
-            grid: {display: false}
+            grid: {
+              display: false
+            }
+          }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#003366',
+            titleFont: {weight: '700'},
+            bodyFont: {weight: '600'}
           }
         }
       }
     });
 
-    function updateChartColors() {
-      const isDark = document.body.classList.contains('dark');
-      alphaChart.options.scales.y.ticks.color = isDark ? '#ffcc80' : '#1a237e';
-      alphaChart.options.scales.y.grid.color = isDark ? '#ffb34788' : '#c3cfe2';
-      alphaChart.options.scales.x.ticks.color = isDark ? '#ffcc80' : '#1a237e';
+    // Re-render chart colors on dark mode toggle
+    darkModeCheckbox.addEventListener('change', () => {
+      const isDark = darkModeCheckbox.checked;
+      alphaChart.options.scales.y.ticks.color = isDark ? '#F5C518' : '#003366';
+      alphaChart.options.scales.y.grid.color = isDark ? '#254060' : '#DDDDDD';
+      alphaChart.options.scales.x.ticks.color = isDark ? '#F5C518' : '#003366';
+      alphaChart.options.plugins.tooltip.backgroundColor = isDark ? '#D4AF37' : '#003366';
       alphaChart.update();
-    }
+    });
   </script>
-
 </body>
 </html>
