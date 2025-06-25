@@ -12,8 +12,8 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: linear-gradient(135deg, #e0f7fa, #ffffff);
-      color: #222;
+      background: linear-gradient(135deg, #f0fbfc, #ffffff);
+      color: #223333;
       display: flex;
       min-height: 100vh;
       transition: background 0.3s, color 0.3s;
@@ -31,16 +31,15 @@
       top: 0;
       width: 280px;
       height: 100vh;
-      background: linear-gradient(180deg, #004d40, #00695c);
+      background: linear-gradient(180deg, #00796b, #009688);
       color: #e0f2f1;
       padding: 25px 20px;
       overflow-y: auto;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.15);
+      box-shadow: 4px 0 12px rgba(0,0,0,0.1);
       transition: background 0.3s;
       z-index: 10;
       display: flex;
       flex-direction: column;
-      will-change: transform; /* GPU optimization for sliding */
     }
     aside h2 {
       font-size: 1.6rem;
@@ -48,7 +47,7 @@
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      text-shadow: 1px 1px 2px #00332f;
+      text-shadow: 1px 1px 2px #004d40;
       user-select: none;
     }
     aside nav {
@@ -79,10 +78,10 @@
     }
     aside nav li a:hover,
     aside nav li a.active {
-      background: #26a69a;
-      color: #004d40;
+      background: #4db6ac;
+      color: #00332f;
       text-decoration: none;
-      box-shadow: 0 2px 10px rgba(38,166,154,0.6);
+      box-shadow: 0 2px 10px rgba(77,182,172,0.6);
     }
     aside nav li a svg {
       width: 20px;
@@ -105,8 +104,8 @@
     .switch {
       position: relative;
       display: inline-block;
-      width: 3.125rem; /* 50px */
-      height: 1.625rem; /* 26px */
+      width: 50px;
+      height: 26px;
     }
     .switch input {
       opacity: 0;
@@ -124,10 +123,9 @@
     .slider:before {
       position: absolute;
       content: "";
-      height: 1.25rem; /* 20px */
-      width: 1.25rem;  /* 20px */
-      left: 0.1875rem; /* 3px */
-      bottom: 0.1875rem; /* 3px */
+      height: 20px; width: 20px;
+      left: 3px;
+      bottom: 3px;
       background-color: #004d40;
       border-radius: 50%;
       transition: .4s;
@@ -136,7 +134,7 @@
       background-color: #26a69a;
     }
     input:checked + .slider:before {
-      transform: translateX(1.5rem); /* 24px */
+      transform: translateX(24px);
       background-color: #004d40;
     }
 
@@ -250,21 +248,21 @@
 
     /* Dark mode styles */
     body.dark {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #e0f2f1;
+      background: linear-gradient(135deg, #2e4e4e, #365f5f);
+      color: #cceee8;
     }
     body.dark aside {
-      background: linear-gradient(180deg, #00251a, #004d40);
-      color: #80cbc4;
+      background: linear-gradient(180deg, #004d40, #00695c);
+      color: #a7ffeb;
       box-shadow: 4px 0 15px rgba(0, 100, 80, 0.8);
     }
     body.dark aside nav li a {
-      color: #80cbc4;
+      color: #a7ffeb;
     }
     body.dark aside nav li a:hover,
     body.dark aside nav li a.active {
       background: #004d40;
-      color: #a7ffeb;
+      color: #b2dfdb;
       box-shadow: 0 0 12px #26a69a;
     }
     body.dark main {
@@ -328,7 +326,6 @@
         gap: 10px;
       }
     }
-
   </style>
 </head>
 <body>
@@ -444,257 +441,172 @@
       <div class="logos-container" aria-label="Company logos">
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-          <p>Nvidia</p>
+          <p>Nvidia (NVDA)</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Palantir_Technologies_Logo.svg" alt="Palantir Logo" />
-          <p>Palantir</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Palantir_company_logo.png" alt="Palantir Logo" />
+          <p>Palantir (PLTR)</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/S%26P_500_logo.svg" alt="S and P 500 Logo" />
-          <p>S&amp;P 500</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/S%26P_500_Index_logo.svg/512px-S%26P_500_Index_logo.svg.png" alt="S&P 500 Logo" />
+          <p>S&amp;P 500 Index (Market)</p>
         </div>
       </div>
 
-      <div id="alpha-chart-container" role="region" aria-label="Line chart comparing Alpha values">
-        <canvas id="alphaChart" width="720" height="360" aria-describedby="alphaChartDesc" role="img"></canvas>
-        <p id="alphaChartDesc" class="sr-only">
-          A line chart showing Nvidia with steadily rising alpha reaching 7.3%, Palantir fluctuating around 2.1%, and S&P 500 baseline at 0%.
-        </p>
+      <div id="alpha-chart-container">
+        <canvas id="alphaChart" aria-label="Alpha comparison line chart" role="img"></canvas>
       </div>
 
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // DOM caching after content loaded
-    document.addEventListener('DOMContentLoaded', () => {
-      const sidebar = document.getElementById('sidebar');
-      const menuToggle = document.getElementById('menu-toggle');
-      const navLinks = document.querySelectorAll('aside nav a.nav-link');
-      const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href')));
-      const darkModeCheckbox = document.getElementById('darkModeCheckbox');
+    // Chart.js line chart data and config for Alpha comparison
+    const ctx = document.getElementById('alphaChart').getContext('2d');
 
-      // Responsive menu toggle for mobile
-      function updateMenuToggleVisibility() {
-        if(window.innerWidth <= 768){
-          menuToggle.style.display = 'block';
-          sidebar.classList.remove('show');
-        } else {
-          menuToggle.style.display = 'none';
-          sidebar.classList.remove('show');
+    const data = {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+      datasets: [
+        {
+          label: 'Nvidia (NVDA)',
+          data: [0.15, 0.2, 0.3, 0.4, 0.55, 0.6, 0.75],
+          borderColor: '#76b900',
+          backgroundColor: 'rgba(118,185,0,0.3)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 7,
+        },
+        {
+          label: 'Palantir (PLTR)',
+          data: [0.05, 0.1, 0.2, 0.25, 0.22, 0.27, 0.35],
+          borderColor: '#0d47a1',
+          backgroundColor: 'rgba(13,71,161,0.3)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 7,
+        },
+        {
+          label: 'S&P 500 Index',
+          data: [0.07, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2],
+          borderColor: '#bdbdbd',
+          backgroundColor: 'rgba(189,189,189,0.2)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointHoverRadius: 7,
         }
-      }
-      updateMenuToggleVisibility();
-      window.addEventListener('resize', updateMenuToggleVisibility);
-      menuToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('show');
-      });
+      ]
+    };
 
-      // Scroll to section and highlight nav link (smooth + accessibility)
-      navLinks.forEach(link => {
-        link.addEventListener('click', e => {
-          e.preventDefault();
-          const targetID = link.getAttribute('href').slice(1);
-          const targetSection = document.getElementById(targetID);
-          if(targetSection){
-            targetSection.focus({preventScroll:true});
-            window.scrollTo({
-              top: targetSection.offsetTop - 20,
-              behavior: 'smooth'
-            });
-            setActiveLink(link);
-            if(window.innerWidth <= 768){
-              sidebar.classList.remove('show');
+    const config = {
+      type: 'line',
+      data: data,
+      options: {
+        responsive: true,
+        interaction: {
+          mode: 'nearest',
+          intersect: false,
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                size: 14,
+                weight: '700',
+              },
+              color: '#004d40',
             }
-          }
-        });
-      });
-
-      // Debounce helper function
-      function debounce(func, wait) {
-        let timeout;
-        return function(...args) {
-          clearTimeout(timeout);
-          timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-      }
-
-      // Highlight active nav link on scroll
-      function setActiveLink(activeLink) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          link.removeAttribute('aria-current');
-        });
-        activeLink.classList.add('active');
-        activeLink.setAttribute('aria-current', 'page');
-      }
-
-      function onScroll() {
-        const scrollPos = window.scrollY || window.pageYOffset;
-        let currentSection = sections[0];
-        for(let i=0; i<sections.length; i++) {
-          if(sections[i].offsetTop - 40 <= scrollPos) {
-            currentSection = sections[i];
-          } else {
-            break;
-          }
-        }
-        const newActiveLink = [...navLinks].find(link => link.getAttribute('href').slice(1) === currentSection.id);
-        if(newActiveLink && !newActiveLink.classList.contains('active')){
-          setActiveLink(newActiveLink);
-        }
-      }
-      window.addEventListener('scroll', debounce(onScroll, 50));
-
-      // Dark mode toggle
-      function setDarkMode(enabled) {
-        if(enabled){
-          document.body.classList.add('dark');
-          darkModeCheckbox.setAttribute('aria-checked', 'true');
-          localStorage.setItem('darkMode', 'true');
-        } else {
-          document.body.classList.remove('dark');
-          darkModeCheckbox.setAttribute('aria-checked', 'false');
-          localStorage.setItem('darkMode', 'false');
-        }
-      }
-
-      darkModeCheckbox.checked = localStorage.getItem('darkMode') === 'true';
-      setDarkMode(darkModeCheckbox.checked);
-
-      darkModeCheckbox.addEventListener('change', (e) => {
-        setDarkMode(e.target.checked);
-      });
-
-      // Chart.js code (line chart with Alpha values)
-      const ctx = document.getElementById('alphaChart').getContext('2d');
-
-      // Load Chart.js from CDN (ensure to load it before running this)
-      function loadChartJS(callback) {
-        if(typeof Chart === 'undefined'){
-          const script = document.createElement('script');
-          script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
-          script.onload = callback;
-          document.head.appendChild(script);
-        } else {
-          callback();
-        }
-      }
-
-      loadChartJS(() => {
-        new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-            datasets: [
-              {
-                label: 'Nvidia Alpha (%)',
-                data: [1.1, 2.3, 3.5, 5.1, 5.8, 6.3, 7.0, 7.3],
-                borderColor: '#76b900',
-                backgroundColor: 'rgba(118, 185, 0, 0.15)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.3,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-              },
-              {
-                label: 'Palantir Alpha (%)',
-                data: [2.0, 2.1, 1.9, 2.5, 2.0, 2.1, 2.0, 2.1],
-                borderColor: '#1976d2',
-                backgroundColor: 'rgba(25, 118, 210, 0.15)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.2,
-                pointRadius: 4,
-                pointHoverRadius: 6,
-              },
-              {
-                label: 'S&P 500 Alpha (%)',
-                data: [0, 0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#444',
-                borderWidth: 2,
-                borderDash: [6, 4],
-                fill: false,
-                pointRadius: 0,
-                tension: 0,
-              }
-            ]
           },
-          options: {
-            responsive: true,
-            interaction: {
-              mode: 'nearest',
-              intersect: false,
-            },
-            plugins: {
-              legend: {
-                labels: {
-                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#222',
-                  font: {
-                    weight: '600',
-                    size: 14
-                  }
-                }
+          tooltip: {
+            enabled: true,
+            backgroundColor: '#004d40cc',
+            titleFont: { weight: '700' },
+            bodyFont: { weight: '600' },
+            padding: 10,
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 1,
+            ticks: {
+              color: '#00796b',
+              font: {
+                weight: '600',
               },
-              tooltip: {
-                mode: 'index',
-                intersect: false,
-                backgroundColor: darkModeCheckbox.checked ? '#004d40' : '#fff',
-                titleColor: darkModeCheckbox.checked ? '#a7ffeb' : '#000',
-                bodyColor: darkModeCheckbox.checked ? '#a7ffeb' : '#000',
-                borderColor: darkModeCheckbox.checked ? '#26a69a' : '#ccc',
-                borderWidth: 1
+              stepSize: 0.1,
+              callback: value => (value * 100).toFixed(0) + '%',
+            },
+            grid: {
+              color: '#b2dfdb',
+              borderColor: '#004d40',
+            }
+          },
+          x: {
+            ticks: {
+              color: '#00796b',
+              font: {
+                weight: '600',
               }
             },
-            scales: {
-              x: {
-                ticks: {
-                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#333',
-                  font: {
-                    weight: '600',
-                    size: 14
-                  }
-                },
-                grid: {
-                  color: darkModeCheckbox.checked ? '#004d40' : '#eee',
-                }
-              },
-              y: {
-                beginAtZero: true,
-                ticks: {
-                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#333',
-                  font: {
-                    weight: '600',
-                    size: 14
-                  }
-                },
-                grid: {
-                  color: darkModeCheckbox.checked ? '#004d40' : '#eee',
-                }
-              }
+            grid: {
+              color: '#b2dfdb',
+              borderColor: '#004d40',
             }
           }
-        });
+        }
+      }
+    };
+
+    const alphaChart = new Chart(ctx, config);
+
+    // Dark mode toggle logic
+    const checkbox = document.getElementById('darkModeCheckbox');
+    const body = document.body;
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        body.classList.add('dark');
+        checkbox.setAttribute('aria-checked', 'true');
+      } else {
+        body.classList.remove('dark');
+        checkbox.setAttribute('aria-checked', 'false');
+      }
+    });
+
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+
+    function handleResize() {
+      if(window.innerWidth <= 768) {
+        menuToggle.style.display = 'block';
+        sidebar.classList.remove('show');
+      } else {
+        menuToggle.style.display = 'none';
+        sidebar.classList.add('show');
+      }
+    }
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+    });
+
+    // Navigation link active states
+    const navLinks = document.querySelectorAll('aside nav a.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        navLinks.forEach(l => l.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        if(window.innerWidth <= 768) {
+          sidebar.classList.remove('show');
+        }
       });
     });
   </script>
-
-  <style>
-    /* Screen reader only text */
-    .sr-only {
-      position: absolute !important;
-      width: 1px !important;
-      height: 1px !important;
-      padding: 0 !important;
-      margin: -1px !important;
-      overflow: hidden !important;
-      clip: rect(0, 0, 0, 0) !important;
-      white-space: nowrap !important;
-      border: 0 !important;
-    }
-  </style>
-
 </body>
 </html>
