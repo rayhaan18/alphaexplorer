@@ -12,7 +12,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: #f9fafa;
+      background: linear-gradient(135deg, #e0f7fa, #ffffff);
       color: #222;
       display: flex;
       min-height: 100vh;
@@ -31,15 +31,16 @@
       top: 0;
       width: 280px;
       height: 100vh;
-      background: linear-gradient(180deg, #1abc9c, #16a085);
-      color: #fff;
+      background: linear-gradient(180deg, #004d40, #00695c);
+      color: #e0f2f1;
       padding: 25px 20px;
       overflow-y: auto;
-      box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 4px 0 12px rgba(0,0,0,0.15);
       transition: background 0.3s;
       z-index: 10;
       display: flex;
       flex-direction: column;
+      will-change: transform; /* GPU optimization for sliding */
     }
     aside h2 {
       font-size: 1.6rem;
@@ -47,9 +48,8 @@
       font-weight: 700;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      text-shadow: 1px 1px 2px #00332f;
       user-select: none;
-      color: #fff;
     }
     aside nav {
       flex-grow: 1;
@@ -74,15 +74,15 @@
       align-items: center;
       gap: 10px;
       transition: background 0.3s, color 0.3s;
-      color: #e0f7f1;
+      color: #b2dfdb;
       user-select: none;
     }
     aside nav li a:hover,
     aside nav li a.active {
-      background: #fff;
-      color: #16a085;
+      background: #26a69a;
+      color: #004d40;
       text-decoration: none;
-      box-shadow: 0 2px 12px rgba(26, 188, 156, 0.5);
+      box-shadow: 0 2px 10px rgba(38,166,154,0.6);
     }
     aside nav li a svg {
       width: 20px;
@@ -94,19 +94,19 @@
     .dark-mode-toggle {
       margin-top: auto;
       padding-top: 20px;
-      border-top: 1px solid #16a085;
+      border-top: 1px solid #004d40;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      color: #e0f7f1;
+      color: #b2dfdb;
       font-weight: 600;
       user-select: none;
     }
     .switch {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 26px;
+      width: 3.125rem; /* 50px */
+      height: 1.625rem; /* 26px */
     }
     .switch input {
       opacity: 0;
@@ -117,26 +117,27 @@
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #e0f7f1;
+      background-color: #b2dfdb;
       border-radius: 34px;
       transition: .4s;
     }
     .slider:before {
       position: absolute;
       content: "";
-      height: 20px; width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: #16a085;
+      height: 1.25rem; /* 20px */
+      width: 1.25rem;  /* 20px */
+      left: 0.1875rem; /* 3px */
+      bottom: 0.1875rem; /* 3px */
+      background-color: #004d40;
       border-radius: 50%;
       transition: .4s;
     }
     input:checked + .slider {
-      background-color: #1abc9c;
+      background-color: #26a69a;
     }
     input:checked + .slider:before {
-      transform: translateX(24px);
-      background-color: #16a085;
+      transform: translateX(1.5rem); /* 24px */
+      background-color: #004d40;
     }
 
     /* Main content */
@@ -148,31 +149,29 @@
       transition: background 0.3s, color 0.3s;
       scroll-behavior: smooth;
       user-select: text;
-      background: #fff;
-      color: #222;
     }
     section {
       margin-bottom: 60px;
-      background: #fff;
+      background: #ffffffdd;
       padding: 25px 30px;
       border-radius: 20px;
       box-shadow:
-        0 8px 15px rgba(0, 0, 0, 0.05),
-        inset 0 0 15px rgba(255, 255, 255, 0.8);
+        0 10px 15px rgba(0,0,0,0.05),
+        inset 0 0 15px rgba(255,255,255,0.7);
       transition: background 0.3s, color 0.3s;
     }
     section h2 {
       margin-top: 0;
-      color: #16a085;
+      color: #00796b;
       font-weight: 700;
       font-size: 1.8rem;
       letter-spacing: 0.03em;
-      text-shadow: 1px 1px 3px rgba(26, 188, 156, 0.4);
+      text-shadow: 1px 1px 3px #b2dfdb;
     }
     p {
       font-size: 1.1rem;
       line-height: 1.6;
-      color: #222;
+      color: #004d40;
     }
 
     /* Header */
@@ -183,23 +182,23 @@
       padding-bottom: 15px;
       margin-bottom: 40px;
       z-index: 5;
-      box-shadow: 0 4px 8px rgba(26, 188, 156, 0.15);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
       border-radius: 20px;
       user-select: none;
-      color: #16a085;
     }
     header h1 {
       margin: 0;
+      color: #00796b;
       font-size: 2.4rem;
       font-weight: 900;
       letter-spacing: 1.5px;
-      text-shadow: 2px 2px 5px rgba(26, 188, 156, 0.4);
+      text-shadow: 2px 2px 5px #80cbc4;
     }
     header p {
       margin: 6px 0 0 0;
       font-size: 1.2rem;
+      color: #004d40dd;
       font-weight: 600;
-      color: #16a085cc;
     }
 
     /* Logos container */
@@ -234,7 +233,7 @@
     .logos-container p {
       margin-top: 10px;
       font-weight: 700;
-      color: #16a085dd;
+      color: #004d40dd;
       font-size: 1.1rem;
     }
 
@@ -251,41 +250,45 @@
 
     /* Dark mode styles */
     body.dark {
-      background: #2c3e50;
-      color: #ecf0f1;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0f2f1;
     }
     body.dark aside {
-      background: linear-gradient(180deg, #16a085, #1abc9c);
-      color: #ecf0f1;
-      box-shadow: 4px 0 15px rgba(22, 160, 133, 0.8);
+      background: linear-gradient(180deg, #00251a, #004d40);
+      color: #80cbc4;
+      box-shadow: 4px 0 15px rgba(0, 100, 80, 0.8);
     }
     body.dark aside nav li a {
-      color: #d0ecec;
+      color: #80cbc4;
     }
     body.dark aside nav li a:hover,
     body.dark aside nav li a.active {
-      background: #ecf0f1;
-      color: #16a085;
-      box-shadow: 0 0 15px #1abc9c;
+      background: #004d40;
+      color: #a7ffeb;
+      box-shadow: 0 0 12px #26a69a;
     }
     body.dark main {
-      background: #34495e;
-      color: #ecf0f1;
+      background: #154a47cc;
+      color: #a7ffeb;
     }
     body.dark section {
-      background: #3a5168cc;
-      color: #ecf0f1;
+      background: #0d3b37cc;
+      color: #b2dfdb;
       box-shadow:
-        0 8px 15px rgba(0, 0, 0, 0.6),
-        inset 0 0 25px rgba(255, 255, 255, 0.15);
+        0 10px 15px rgba(0, 0, 0, 0.8),
+        inset 0 0 25px rgba(255, 255, 255, 0.1);
     }
     body.dark header {
-      background: #3a5168cc;
-      box-shadow: 0 4px 12px rgba(26, 188, 156, 0.6);
-      color: #1abc9c;
+      background: #0d3b3788;
+      box-shadow: 0 4px 12px rgba(0, 200, 180, 0.5);
     }
-    body.dark .logos-container p {
-      color: #1abc9cdd;
+    body.dark .logos-container img {
+      background: #004d40;
+      filter: drop-shadow(0 2px 8px #00796b);
+    }
+    body.dark .logos-container img:hover {
+      filter: drop-shadow(0 6px 12px #26a69a);
+      transform: scale(1.1) rotate(3deg);
     }
 
     /* Responsive mobile: sidebar collapses */
@@ -307,7 +310,7 @@
         position: fixed;
         top: 15px;
         left: 15px;
-        background: #16a085;
+        background: #00796b;
         border: none;
         color: white;
         padding: 10px 14px;
@@ -315,7 +318,7 @@
         border-radius: 8px;
         cursor: pointer;
         z-index: 30;
-        box-shadow: 0 2px 10px rgba(22, 160, 133, 0.7);
+        box-shadow: 0 2px 10px rgba(0, 121, 107, 0.7);
       }
       .dark-mode-toggle {
         margin-top: 15px;
@@ -441,61 +444,257 @@
       <div class="logos-container" aria-label="Company logos">
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-          <p>Nvidia (NVDA)</p>
+          <p>Nvidia</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Palantir_Technologies_logo.svg/512px-Palantir_Technologies_logo.svg.png" alt="Palantir Logo" />
-          <p>Palantir (PLTR)</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Palantir_Technologies_Logo.svg" alt="Palantir Logo" />
+          <p>Palantir</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/S%26P_500_Logo.svg/1200px-S%26P_500_Logo.svg.png" alt="S&P 500 Logo" />
-          <p>S&P 500 Index</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/S%26P_500_logo.svg" alt="S and P 500 Logo" />
+          <p>S&amp;P 500</p>
         </div>
       </div>
 
-      <div id="alpha-chart-container" aria-label="Alpha chart container">
-        <!-- Chart will be injected here by JavaScript -->
+      <div id="alpha-chart-container" role="region" aria-label="Line chart comparing Alpha values">
+        <canvas id="alphaChart" width="720" height="360" aria-describedby="alphaChartDesc" role="img"></canvas>
+        <p id="alphaChartDesc" class="sr-only">
+          A line chart showing Nvidia with steadily rising alpha reaching 7.3%, Palantir fluctuating around 2.1%, and S&P 500 baseline at 0%.
+        </p>
       </div>
 
     </section>
   </main>
 
   <script>
-    // Dark mode toggle
-    const checkbox = document.getElementById('darkModeCheckbox');
-    checkbox.addEventListener('change', () => {
-      document.body.classList.toggle('dark', checkbox.checked);
-      checkbox.setAttribute('aria-checked', checkbox.checked.toString());
-    });
+    // DOM caching after content loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const sidebar = document.getElementById('sidebar');
+      const menuToggle = document.getElementById('menu-toggle');
+      const navLinks = document.querySelectorAll('aside nav a.nav-link');
+      const sections = Array.from(navLinks).map(link => document.querySelector(link.getAttribute('href')));
+      const darkModeCheckbox = document.getElementById('darkModeCheckbox');
 
-    // Sidebar nav link highlighting
-    const navLinks = document.querySelectorAll('aside nav li a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        navLinks.forEach(l => l.classList.remove('active'));
-        e.currentTarget.classList.add('active');
+      // Responsive menu toggle for mobile
+      function updateMenuToggleVisibility() {
+        if(window.innerWidth <= 768){
+          menuToggle.style.display = 'block';
+          sidebar.classList.remove('show');
+        } else {
+          menuToggle.style.display = 'none';
+          sidebar.classList.remove('show');
+        }
+      }
+      updateMenuToggleVisibility();
+      window.addEventListener('resize', updateMenuToggleVisibility);
+      menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show');
+      });
+
+      // Scroll to section and highlight nav link (smooth + accessibility)
+      navLinks.forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const targetID = link.getAttribute('href').slice(1);
+          const targetSection = document.getElementById(targetID);
+          if(targetSection){
+            targetSection.focus({preventScroll:true});
+            window.scrollTo({
+              top: targetSection.offsetTop - 20,
+              behavior: 'smooth'
+            });
+            setActiveLink(link);
+            if(window.innerWidth <= 768){
+              sidebar.classList.remove('show');
+            }
+          }
+        });
+      });
+
+      // Debounce helper function
+      function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+          clearTimeout(timeout);
+          timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+      }
+
+      // Highlight active nav link on scroll
+      function setActiveLink(activeLink) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          link.removeAttribute('aria-current');
+        });
+        activeLink.classList.add('active');
+        activeLink.setAttribute('aria-current', 'page');
+      }
+
+      function onScroll() {
+        const scrollPos = window.scrollY || window.pageYOffset;
+        let currentSection = sections[0];
+        for(let i=0; i<sections.length; i++) {
+          if(sections[i].offsetTop - 40 <= scrollPos) {
+            currentSection = sections[i];
+          } else {
+            break;
+          }
+        }
+        const newActiveLink = [...navLinks].find(link => link.getAttribute('href').slice(1) === currentSection.id);
+        if(newActiveLink && !newActiveLink.classList.contains('active')){
+          setActiveLink(newActiveLink);
+        }
+      }
+      window.addEventListener('scroll', debounce(onScroll, 50));
+
+      // Dark mode toggle
+      function setDarkMode(enabled) {
+        if(enabled){
+          document.body.classList.add('dark');
+          darkModeCheckbox.setAttribute('aria-checked', 'true');
+          localStorage.setItem('darkMode', 'true');
+        } else {
+          document.body.classList.remove('dark');
+          darkModeCheckbox.setAttribute('aria-checked', 'false');
+          localStorage.setItem('darkMode', 'false');
+        }
+      }
+
+      darkModeCheckbox.checked = localStorage.getItem('darkMode') === 'true';
+      setDarkMode(darkModeCheckbox.checked);
+
+      darkModeCheckbox.addEventListener('change', (e) => {
+        setDarkMode(e.target.checked);
+      });
+
+      // Chart.js code (line chart with Alpha values)
+      const ctx = document.getElementById('alphaChart').getContext('2d');
+
+      // Load Chart.js from CDN (ensure to load it before running this)
+      function loadChartJS(callback) {
+        if(typeof Chart === 'undefined'){
+          const script = document.createElement('script');
+          script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+          script.onload = callback;
+          document.head.appendChild(script);
+        } else {
+          callback();
+        }
+      }
+
+      loadChartJS(() => {
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+            datasets: [
+              {
+                label: 'Nvidia Alpha (%)',
+                data: [1.1, 2.3, 3.5, 5.1, 5.8, 6.3, 7.0, 7.3],
+                borderColor: '#76b900',
+                backgroundColor: 'rgba(118, 185, 0, 0.15)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+              {
+                label: 'Palantir Alpha (%)',
+                data: [2.0, 2.1, 1.9, 2.5, 2.0, 2.1, 2.0, 2.1],
+                borderColor: '#1976d2',
+                backgroundColor: 'rgba(25, 118, 210, 0.15)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+              },
+              {
+                label: 'S&P 500 Alpha (%)',
+                data: [0, 0, 0, 0, 0, 0, 0, 0],
+                borderColor: '#444',
+                borderWidth: 2,
+                borderDash: [6, 4],
+                fill: false,
+                pointRadius: 0,
+                tension: 0,
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            interaction: {
+              mode: 'nearest',
+              intersect: false,
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#222',
+                  font: {
+                    weight: '600',
+                    size: 14
+                  }
+                }
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: darkModeCheckbox.checked ? '#004d40' : '#fff',
+                titleColor: darkModeCheckbox.checked ? '#a7ffeb' : '#000',
+                bodyColor: darkModeCheckbox.checked ? '#a7ffeb' : '#000',
+                borderColor: darkModeCheckbox.checked ? '#26a69a' : '#ccc',
+                borderWidth: 1
+              }
+            },
+            scales: {
+              x: {
+                ticks: {
+                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#333',
+                  font: {
+                    weight: '600',
+                    size: 14
+                  }
+                },
+                grid: {
+                  color: darkModeCheckbox.checked ? '#004d40' : '#eee',
+                }
+              },
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  color: darkModeCheckbox.checked ? '#b2dfdb' : '#333',
+                  font: {
+                    weight: '600',
+                    size: 14
+                  }
+                },
+                grid: {
+                  color: darkModeCheckbox.checked ? '#004d40' : '#eee',
+                }
+              }
+            }
+          }
+        });
       });
     });
-
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-    function checkWindowWidth() {
-      if (window.innerWidth <= 768) {
-        menuToggle.style.display = 'block';
-        sidebar.classList.remove('show');
-      } else {
-        menuToggle.style.display = 'none';
-        sidebar.classList.remove('show');
-      }
-    }
-    checkWindowWidth();
-    window.addEventListener('resize', checkWindowWidth);
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
-    });
-
-    // You can add chart rendering code here later
   </script>
+
+  <style>
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+  </style>
+
 </body>
 </html>
