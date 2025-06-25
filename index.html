@@ -3,257 +3,111 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alpha Explorer — Building Alpha</title>
+  <title>Alpha Explorer - Building Alpha, One Insight at a Time</title>
   <style>
-    /* Reset and base */
+    /* Reset & base */
     *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f9fafb;
-      color: #1a202c;
+      color: #202124;
       display: flex;
       min-height: 100vh;
-      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
     }
     a {
-      color: #2b6cb0;
+      color: inherit;
       text-decoration: none;
+      cursor: pointer;
       transition: color 0.2s ease;
     }
     a:hover, a:focus {
-      color: #2c5282;
+      color: #00796b;
       outline: none;
-    }
-
-    /* Header */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 64px;
-      background: #fff;
-      border-bottom: 1px solid #e2e8f0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      z-index: 1000;
-      box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
-    }
-    header .logo-title {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      user-select: none;
-    }
-    header h1 {
-      margin: 0;
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: #2c5282;
-      letter-spacing: 0.04em;
-    }
-    header .tagline {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: #718096;
-      letter-spacing: 0.06em;
-      margin-top: 2px;
-      font-style: italic;
-    }
-
-    /* Hamburger toggle for mobile */
-    #menu-toggle {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 22px;
-      width: 28px;
-      user-select: none;
-    }
-    #menu-toggle span {
-      display: block;
-      height: 3px;
-      width: 100%;
-      background: #2c5282;
-      border-radius: 2px;
-      transition: all 0.3s ease;
-    }
-    #menu-toggle.open span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    #menu-toggle.open span:nth-child(2) {
-      opacity: 0;
-    }
-    #menu-toggle.open span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
     }
 
     /* Sidebar */
     aside {
       position: fixed;
-      top: 64px;
-      left: 0;
+      top: 0; left: 0;
+      height: 100vh;
       width: 280px;
-      height: calc(100vh - 64px);
-      background: #2c5282;
-      color: #fff;
-      padding: 30px 20px 20px;
-      overflow-y: auto;
-      box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+      background: #004d40;
+      color: #e0f2f1;
+      padding: 2rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 4px 0 15px rgba(0,0,0,0.1);
       transition: transform 0.3s ease;
-      will-change: transform;
-      user-select: none;
-      z-index: 999;
-    }
-    aside.closed {
-      transform: translateX(-100%);
+      z-index: 20;
     }
     aside h2 {
-      margin: 0 0 28px;
+      font-size: 1.75rem;
       font-weight: 900;
-      font-size: 1.8rem;
-      letter-spacing: 0.1em;
+      margin-bottom: 2.5rem;
+      letter-spacing: 2px;
+      user-select: none;
       text-transform: uppercase;
-      color: #bee3f8;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      color: #a7ffeb;
+      text-shadow: 0 0 6px #26a69a;
     }
-    nav ul {
+    aside nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
+      flex-grow: 1;
     }
-    nav li {
-      margin-bottom: 20px;
+    aside nav li {
+      margin-bottom: 1.4rem;
     }
-    nav a {
-      font-weight: 600;
-      font-size: 1rem;
-      color: #cbd5e0;
+    aside nav a {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 8px 12px;
-      border-radius: 6px;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-    nav a:hover,
-    nav a.active {
-      background-color: #bee3f8;
-      color: #2c5282;
-      font-weight: 700;
-      box-shadow: 0 0 10px #bee3f8aa;
-    }
-    nav a svg {
-      flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    /* Main content */
-    main {
-      margin-left: 280px;
-      padding: 100px 40px 40px;
-      max-width: 900px;
-      width: 100%;
-      transition: margin-left 0.3s ease;
-    }
-    main.full-width {
-      margin-left: 0;
-      padding: 100px 20px 40px;
-    }
-    section {
-      margin-bottom: 60px;
-      background: #fff;
-      padding: 32px 36px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
-    }
-    section h2 {
-      margin-top: 0;
-      font-weight: 800;
-      font-size: 1.8rem;
-      color: #2c5282;
-      margin-bottom: 12px;
-      letter-spacing: 0.05em;
-    }
-    section p {
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-weight: 600;
       font-size: 1.1rem;
-      line-height: 1.6;
-      color: #4a5568;
-    }
-
-    /* Logos container */
-    .logos-container {
-      display: flex;
-      gap: 48px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 36px;
-    }
-    .logos-container div {
-      text-align: center;
+      color: #b2dfdb;
       user-select: none;
-      flex: 1 0 110px;
-      max-width: 140px;
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    .logos-container img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgb(44 82 130 / 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-      background: #fff;
-      padding: 15px;
+    aside nav a svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      flex-shrink: 0;
     }
-    .logos-container img:hover {
-      transform: scale(1.07);
-      box-shadow: 0 10px 30px rgb(44 82 130 / 0.4);
-    }
-    .logos-container p {
-      margin-top: 10px;
-      font-weight: 700;
-      color: #2a4365;
-      font-size: 1rem;
-      user-select: text;
+    aside nav a.active,
+    aside nav a:hover,
+    aside nav a:focus {
+      background-color: #26a69a;
+      color: #004d40;
+      box-shadow: 0 3px 10px rgba(38,166,154,0.7);
+      outline: none;
     }
 
-    /* Chart container */
-    #alpha-chart-container {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 12px 0 24px;
-    }
-
-    /* Dark mode toggle (small in sidebar) */
+    /* Dark mode toggle */
     .dark-mode-toggle {
       margin-top: auto;
-      border-top: 1px solid #4c6ef5;
-      padding-top: 18px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       font-weight: 600;
-      font-size: 0.9rem;
-      color: #bee3f8;
+      font-size: 1rem;
+      color: #b2dfdb;
       user-select: none;
+      padding-top: 1.5rem;
+      border-top: 1px solid #00332f;
     }
     .switch {
       position: relative;
+      width: 50px;
+      height: 28px;
       display: inline-block;
-      width: 44px;
-      height: 22px;
     }
     .switch input {
       opacity: 0;
@@ -264,48 +118,252 @@
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #718096;
-      border-radius: 34px;
-      transition: 0.4s;
+      background-color: #b2dfdb;
+      border-radius: 28px;
+      transition: background-color 0.4s;
     }
-    .slider:before {
+    .slider::before {
       position: absolute;
       content: "";
-      height: 18px;
-      width: 18px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
+      height: 22px; width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: #004d40;
       border-radius: 50%;
-      transition: 0.4s;
+      transition: transform 0.4s, background-color 0.4s;
     }
     input:checked + .slider {
-      background-color: #63b3ed;
+      background-color: #26a69a;
     }
-    input:checked + .slider:before {
+    input:checked + .slider::before {
       transform: translateX(22px);
+      background-color: #004d40;
     }
 
-    /* Responsive: Mobile */
-    @media (max-width: 768px) {
-      aside {
-        position: fixed;
-        top: 64px;
-        left: 0;
-        height: calc(100vh - 64px);
-        background: #2c5282;
-        width: 240px;
-        transform: translateX(-100%);
-      }
-      aside.open {
-        transform: translateX(0);
-      }
+    /* Main content */
+    main {
+      margin-left: 280px;
+      padding: 3rem 3rem 4rem;
+      max-width: 900px;
+      flex-grow: 1;
+      scroll-behavior: smooth;
+      user-select: text;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      background-color: #fff;
+      padding-bottom: 1rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      border-radius: 12px;
+      z-index: 10;
+      user-select: none;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.6rem;
+      font-weight: 900;
+      color: #004d40;
+      letter-spacing: 1.8px;
+      line-height: 1.1;
+    }
+    header p {
+      margin-top: 0.2rem;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #00796b;
+      font-style: italic;
+    }
+
+    section {
+      background: #fff;
+      padding: 2rem 2.5rem;
+      margin-bottom: 3rem;
+      border-radius: 18px;
+      box-shadow:
+        0 8px 15px rgba(0,0,0,0.06),
+        inset 0 0 15px rgba(255,255,255,0.9);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    section h2 {
+      color: #00796b;
+      font-weight: 800;
+      font-size: 1.9rem;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      letter-spacing: 0.04em;
+    }
+    section p {
+      font-size: 1.15rem;
+      line-height: 1.65;
+      color: #263238;
+    }
+
+    /* Logos container */
+    .logos-container {
+      display: flex;
+      justify-content: center;
+      gap: 3.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+    }
+    .logos-container div {
+      text-align: center;
+      user-select: none;
+    }
+    .logos-container img {
+      width: 120px;
+      height: auto;
+      background: #fff;
+      padding: 18px;
+      border-radius: 20px;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .logos-container img:hover {
+      transform: scale(1.12) rotate(4deg);
+      box-shadow: 0 14px 25px rgba(0,0,0,0.18);
+    }
+    .logos-container p {
+      margin-top: 0.7rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: #004d40dd;
+    }
+
+    /* Chart container */
+    #alpha-chart-container {
+      max-width: 750px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 1rem 1rem 2rem;
+      border-radius: 20px;
+      box-shadow: 0 14px 25px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 1.2rem 0;
+      color: #00796b;
+      font-weight: 600;
+      user-select: none;
+      font-size: 0.9rem;
+    }
+
+    /* Hamburger Menu Button */
+    #menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: #00796b;
+      border: none;
+      border-radius: 10px;
+      padding: 0.55rem 1rem;
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      z-index: 40;
+      box-shadow: 0 3px 12px rgba(0,121,107,0.8);
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    #menu-toggle:hover,
+    #menu-toggle:focus {
+      background: #004d40;
+      outline: none;
+    }
+
+    /* Dark mode styles */
+    body.dark {
+      background: #121a1a;
+      color: #c8f0e8;
+    }
+    body.dark aside {
+      background: #00332f;
+      color: #a7ffeb;
+      box-shadow: 4px 0 15px rgba(0, 150, 120, 0.9);
+    }
+    body.dark aside h2 {
+      color: #a7ffeb;
+      text-shadow: 0 0 7px #26a69a;
+    }
+    body.dark aside nav a {
+      color: #80cbc4;
+    }
+    body.dark aside nav a.active,
+    body.dark aside nav a:hover,
+    body.dark aside nav a:focus {
+      background-color: #004d40;
+      color: #a7ffeb;
+      box-shadow: 0 0 15px #26a69a;
+    }
+    body.dark .dark-mode-toggle {
+      color: #80cbc4;
+      border-top-color: #005442;
+    }
+    body.dark main {
+      background: #142f2e;
+      color: #b2dfdb;
+    }
+    body.dark section {
+      background: #1b4332;
+      color: #d0f0e8;
+      box-shadow:
+        0 8px 15px rgba(0, 0, 0, 0.85),
+        inset 0 0 25px rgba(255, 255, 255, 0.15);
+    }
+    body.dark header {
+      background: #1b4332;
+      box-shadow: 0 3px 12px rgba(0, 200, 180, 0.7);
+      color: #a7ffeb;
+    }
+    body.dark header h1,
+    body.dark header p {
+      color: #a7ffeb;
+    }
+    body.dark .logos-container img {
+      background: #004d40;
+      box-shadow: 0 12px 25px #00796b;
+    }
+    body.dark .logos-container img:hover {
+      box-shadow: 0 18px 32px #26a69a;
+      transform: scale(1.12) rotate(4deg);
+    }
+    body.dark #menu-toggle {
+      background: #26a69a;
+      color: #004d40;
+    }
+    body.dark #menu-toggle:hover,
+    body.dark #menu-toggle:focus {
+      background: #004d40;
+      color: #a7ffeb;
+    }
+    body.dark footer {
+      color: #80cbc4;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
       main {
         margin-left: 0;
-        padding: 100px 20px 40px;
+        padding: 2rem 1.5rem 3rem;
+      }
+      aside {
+        transform: translateX(-100%);
+      }
+      aside.show {
+        transform: translateX(0);
       }
       #menu-toggle {
-        display: flex;
+        display: block;
       }
     }
 
@@ -313,250 +371,244 @@
 </head>
 <body>
 
-  <header>
-    <div class="logo-title" aria-label="Site title and tagline">
-      <h1>Alpha Explorer</h1>
-      <div class="tagline">Building Alpha</div>
-    </div>
-    <button id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
+  <!-- Hamburger menu button -->
+  <button id="menu-toggle" aria-label="Toggle menu" title="Toggle menu">☰</button>
 
-  <aside id="sidebar" class="closed" role="navigation" aria-label="Primary sidebar navigation">
-    <h2>MENU</h2>
+  <aside id="sidebar" role="navigation" aria-label="Primary sidebar menu">
+    <h2>Alpha Explorer</h2>
     <nav>
       <ul>
-        <li><a href="#alpha-section" class="nav-link active" tabindex="0">𝛼 Alpha</a></li>
-        <li><a href="#beta-section" class="nav-link" tabindex="0">𝛽 Beta</a></li>
-        <li><a href="#power-law" class="nav-link" tabindex="0">⚡ Power Law</a></li>
-        <li><a href="#asymmetric-bets" class="nav-link" tabindex="0">📈 Asymmetric Bets</a></li>
-        <li><a href="#contrarian-investing" class="nav-link" tabindex="0">↩ Contrarian Investing</a></li>
-        <li><a href="#stock-comparison" class="nav-link" tabindex="0">📊 Stock Comparison</a></li>
+        <li>
+          <a href="#alpha-section" class="nav-link active" aria-current="page" tabindex="0">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛼</text></svg>
+            Alpha
+          </a>
+        </li>
+        <li>
+          <a href="#beta-section" class="nav-link" tabindex="0">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛽</text></svg>
+            Beta
+          </a>
+        </li>
+        <li>
+          <a href="#power-law" class="nav-link" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" >
+              <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Power Law
+          </a>
+        </li>
+        <li>
+          <a href="#asymmetric-bets" class="nav-link" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <polyline points="6 12 10 16 18 8" />
+              <path d="M6 20h12v-4"/>
+            </svg>
+            Asymmetric Bets
+          </a>
+        </li>
+        <li>
+          <a href="#contrarian-investing" class="nav-link" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <polyline points="9 14 4 9 9 4" />
+              <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
+            </svg>
+            Contrarian Investing
+          </a>
+        </li>
+        <li>
+          <a href="#stock-comparison" class="nav-link" tabindex="0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
+              <line x1="12" y1="20" x2="12" y2="10" />
+              <line x1="18" y1="20" x2="18" y2="4" />
+              <line x1="6" y1="20" x2="6" y2="16" />
+            </svg>
+            Stock Comparison
+          </a>
+        </li>
       </ul>
     </nav>
 
     <div class="dark-mode-toggle" role="region" aria-label="Toggle dark mode">
       <span>Dark Mode</span>
       <label class="switch">
-        <input type="checkbox" id="darkModeCheckbox" role="switch" aria-checked="false" />
+        <input type="checkbox" id="darkModeCheckbox" aria-checked="false" role="switch" />
         <span class="slider"></span>
       </label>
     </div>
   </aside>
 
   <main>
-    <section id="alpha-section" tabindex="0" aria-label="Alpha section">
+    <header>
+      <h1>Alpha Explorer</h1>
+      <p>Building Alpha, One Insight at a Time</p>
+    </header>
+
+    <section id="alpha-section" tabindex="0">
       <h2>What is Alpha?</h2>
       <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
     </section>
 
-    <section id="beta-section" tabindex="0" aria-label="Beta section">
+    <section id="beta-section" tabindex="0">
       <h2>What is Beta?</h2>
       <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
     </section>
 
-    <section id="power-law" tabindex="0" aria-label="Power law strategy section">
+    <section id="power-law" tabindex="0">
       <h2>Strategy: Power Law</h2>
       <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
       <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
     </section>
 
-    <section id="asymmetric-bets" tabindex="0" aria-label="Asymmetric bets strategy section">
+    <section id="asymmetric-bets" tabindex="0">
       <h2>Strategy: Asymmetric Bets</h2>
-      <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
+      <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the risk. You want to find bets that can multiply your money, even if many fail.</p>
     </section>
 
-    <section id="contrarian-investing" tabindex="0" aria-label="Contrarian investing strategy section">
+    <section id="contrarian-investing" tabindex="0">
       <h2>Strategy: Contrarian Investing</h2>
-      <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
+      <p>Contrarian investing is about going against the crowd. When others sell in panic, contrarians buy. When the market is overly optimistic, contrarians sell. This approach can help capture alpha during market swings.</p>
     </section>
 
-    <section id="stock-comparison" tabindex="0" aria-label="Stock alpha comparison section">
-      <h2>Stock Alpha Comparison: Nvidia, Palantir, &amp; S&P 500</h2>
+    <section id="stock-comparison" tabindex="0">
+      <h2>Stock Alpha Comparison</h2>
 
-      <div class="logos-container" aria-label="Company logos">
-        <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-          <p>Nvidia (NVDA)</p>
-        </div>
+      <div class="logos-container">
         <div>
           <img src="https://upload.wikimedia.org/wikipedia/commons/3/37/Palantir_company_logo.png" alt="Palantir Logo" />
-          <p>Palantir (PLTR)</p>
+          <p>Palantir</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/S%26P_500_Logo.png/512px-S%26P_500_Logo.png" alt="S&P 500 Logo" />
-          <p>S&amp;P 500 Index (Market)</p>
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/14/NVIDIA_logo.svg" alt="Nvidia Logo" />
+          <p>Nvidia</p>
+        </div>
+        <div>
+          <img src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c530.png" alt="S&P 500 Logo" />
+          <p>S&P 500</p>
         </div>
       </div>
 
       <div id="alpha-chart-container">
-        <canvas id="alpha-chart" aria-label="Alpha values line chart" role="img"></canvas>
+        <canvas id="alphaChart" width="700" height="400" aria-label="Alpha comparison chart" role="img"></canvas>
       </div>
     </section>
+
+    <footer>
+      &copy; 2025 Alpha Explorer | Made with passion by Rayhaan Charniya
+    </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Sidebar toggle
+    // Hamburger menu toggle
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('open');
-      menuToggle.classList.toggle('open');
-      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
-      menuToggle.setAttribute('aria-expanded', String(!expanded));
+      sidebar.classList.toggle('show');
     });
 
-    // Nav link active highlight and smooth scroll
-    const navLinks = document.querySelectorAll('nav a.nav-link');
+    // Smooth scroll and active link highlight
+    const navLinks = document.querySelectorAll('aside nav a');
     navLinks.forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
         navLinks.forEach(l => l.classList.remove('active'));
         link.classList.add('active');
-        sidebar.classList.remove('open');
-        menuToggle.classList.remove('open');
-        menuToggle.setAttribute('aria-expanded', 'false');
-
-        const targetID = link.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetID);
-        targetSection.scrollIntoView({ behavior: 'smooth' });
-        targetSection.focus({preventScroll: true});
+        sidebar.classList.remove('show'); // hide sidebar on mobile after click
+        const targetId = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.focus();
+          targetSection.scrollIntoView({ behavior: 'smooth' });
+        }
       });
     });
 
     // Dark mode toggle
     const darkModeCheckbox = document.getElementById('darkModeCheckbox');
-    const body = document.body;
-    darkModeCheckbox.addEventListener('change', () => {
-      if(darkModeCheckbox.checked) {
-        body.classList.add('dark');
-        localStorage.setItem('darkMode', 'true');
-      } else {
-        body.classList.remove('dark');
-        localStorage.setItem('darkMode', 'false');
-      }
-      darkModeCheckbox.setAttribute('aria-checked', darkModeCheckbox.checked);
-    });
-
-    // Load saved dark mode
-    if(localStorage.getItem('darkMode') === 'true') {
+    // Load user preference from localStorage
+    if(localStorage.getItem('darkMode') === 'true'){
+      document.body.classList.add('dark');
       darkModeCheckbox.checked = true;
-      body.classList.add('dark');
       darkModeCheckbox.setAttribute('aria-checked', 'true');
     }
+    darkModeCheckbox.addEventListener('change', () => {
+      if(darkModeCheckbox.checked){
+        document.body.classList.add('dark');
+        darkModeCheckbox.setAttribute('aria-checked', 'true');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        document.body.classList.remove('dark');
+        darkModeCheckbox.setAttribute('aria-checked', 'false');
+        localStorage.setItem('darkMode', 'false');
+      }
+    });
 
-    // Chart.js line chart setup
-    const ctx = document.getElementById('alpha-chart').getContext('2d');
+    // Chart.js alpha data
+    const ctx = document.getElementById('alphaChart').getContext('2d');
+    const alphaData = {
+      labels: ['S&P 500', 'Nvidia', 'Palantir'],
+      datasets: [{
+        label: 'Alpha (%)',
+        data: [1.1, 2.4, 3.2],
+        backgroundColor: [
+          '#00796b',
+          '#76ff03',
+          '#26a69a',
+        ],
+        borderRadius: 10,
+        maxBarThickness: 60,
+      }]
+    };
     const alphaChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
-        datasets: [
-          {
-            label: 'Nvidia (NVDA) Alpha',
-            data: [1.2, 1.5, 2.3, 3.0, 4.1, 5.2],
-            borderColor: '#68d391',
-            backgroundColor: 'rgba(104, 211, 145, 0.3)',
-            tension: 0.25,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            borderWidth: 3,
-            cubicInterpolationMode: 'monotone'
-          },
-          {
-            label: 'Palantir (PLTR) Alpha',
-            data: [0.8, 0.6, 0.7, 1.0, 1.3, 1.4],
-            borderColor: '#4299e1',
-            backgroundColor: 'rgba(66, 153, 225, 0.3)',
-            tension: 0.25,
-            fill: true,
-            pointRadius: 4,
-            pointHoverRadius: 6,
-            borderWidth: 3,
-            cubicInterpolationMode: 'monotone'
-          },
-          {
-            label: 'S&P 500 Market Alpha',
-            data: [1, 1, 1, 1, 1, 1],
-            borderColor: '#718096',
-            borderDash: [8, 6],
-            backgroundColor: 'transparent',
-            tension: 0,
-            fill: false,
-            pointRadius: 0,
-            borderWidth: 2,
-          }
-        ]
-      },
+      type: 'bar',
+      data: alphaData,
       options: {
         responsive: true,
-        maintainAspectRatio: false,
-        aspectRatio: 2,
-        interaction: {
-          mode: 'nearest',
-          intersect: false,
-        },
-        plugins: {
-          legend: {
-            labels: {
-              font: {
-                size: 14,
-                weight: '700',
-              },
-              color: '#2a4365',
-            }
-          },
-          tooltip: {
-            enabled: true,
-            mode: 'nearest',
-            intersect: false,
-            backgroundColor: '#2a4365cc',
-            titleFont: {weight: '700'},
-            bodyFont: {weight: '600'},
-            padding: 10,
-          }
+        animation: {
+          duration: 1500,
+          easing: 'easeOutQuart',
         },
         scales: {
           y: {
             beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Alpha Value',
-              color: '#2a4365',
-              font: { size: 14, weight: '700' }
-            },
+            max: 5,
             ticks: {
-              color: '#2a4365',
-              font: {weight: '600'}
+              stepSize: 1,
+              color: '#004d40',
+              font: {weight: '700', size: 14},
+              callback: value => value + '%'
             },
             grid: {
-              color: '#cbd5e0',
-              borderColor: '#a0aec0',
+              color: '#c8f0e8',
             }
           },
           x: {
-            title: {
-              display: true,
-              text: 'Year',
-              color: '#2a4365',
-              font: { size: 14, weight: '700' }
-            },
             ticks: {
-              color: '#2a4365',
-              font: {weight: '600'}
+              color: '#004d40',
+              font: {weight: '700', size: 16},
             },
             grid: {
-              color: '#e2e8f0',
-              borderColor: '#a0aec0',
+              display: false
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: true,
+            backgroundColor: '#004d40cc',
+            titleFont: {weight: 'bold'},
+            bodyFont: {weight: '600'},
+            callbacks: {
+              label: ctx => ctx.parsed.y + '% alpha',
             }
           }
         }
       }
     });
   </script>
-
 </body>
 </html>
