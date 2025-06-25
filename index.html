@@ -1,111 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alpha Explorer</title>
+  <title>Alpha Explorer — Building Alpha</title>
   <style>
-    /* Reset & base */
-    * {
+    /* Reset and base */
+    *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      background: linear-gradient(135deg, #f0fbfc, #ffffff);
-      color: #223333;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+        Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #f9fafb;
+      color: #1a202c;
       display: flex;
       min-height: 100vh;
-      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
     }
     a {
-      color: inherit;
+      color: #2b6cb0;
       text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    a:hover, a:focus {
+      color: #2c5282;
+      outline: none;
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 64px;
+      background: #fff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.05);
+    }
+    header .logo-title {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      user-select: none;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #2c5282;
+      letter-spacing: 0.04em;
+    }
+    header .tagline {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #718096;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    /* Hamburger toggle for mobile */
+    #menu-toggle {
+      background: none;
+      border: none;
       cursor: pointer;
+      padding: 6px;
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 22px;
+      width: 28px;
+      user-select: none;
+    }
+    #menu-toggle span {
+      display: block;
+      height: 3px;
+      width: 100%;
+      background: #2c5282;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    #menu-toggle.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    #menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+    #menu-toggle.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
     }
 
     /* Sidebar */
     aside {
       position: fixed;
+      top: 64px;
       left: 0;
-      top: 0;
       width: 280px;
-      height: 100vh;
-      background: linear-gradient(180deg, #00796b, #009688);
-      color: #e0f2f1;
-      padding: 25px 20px;
+      height: calc(100vh - 64px);
+      background: #2c5282;
+      color: #fff;
+      padding: 30px 20px 20px;
       overflow-y: auto;
-      box-shadow: 4px 0 12px rgba(0,0,0,0.1);
-      transition: background 0.3s;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
+      box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease;
+      will-change: transform;
+      user-select: none;
+      z-index: 999;
+    }
+    aside.closed {
+      transform: translateX(-100%);
     }
     aside h2 {
-      font-size: 1.6rem;
-      margin-bottom: 25px;
-      font-weight: 700;
-      letter-spacing: 1.2px;
+      margin: 0 0 28px;
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      text-shadow: 1px 1px 2px #004d40;
-      user-select: none;
+      color: #bee3f8;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
-    aside nav {
-      flex-grow: 1;
-    }
-    aside nav ul {
+    nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-    aside nav li {
-      margin: 16px 0;
+    nav li {
+      margin-bottom: 20px;
+    }
+    nav a {
+      font-weight: 600;
+      font-size: 1rem;
+      color: #cbd5e0;
       display: flex;
       align-items: center;
       gap: 12px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
-    aside nav li a {
-      flex-grow: 1;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: background 0.3s, color 0.3s;
-      color: #b2dfdb;
-      user-select: none;
+    nav a:hover,
+    nav a.active {
+      background-color: #bee3f8;
+      color: #2c5282;
+      font-weight: 700;
+      box-shadow: 0 0 10px #bee3f8aa;
     }
-    aside nav li a:hover,
-    aside nav li a.active {
-      background: #4db6ac;
-      color: #00332f;
-      text-decoration: none;
-      box-shadow: 0 2px 10px rgba(77,182,172,0.6);
-    }
-    aside nav li a svg {
+    nav a svg {
+      flex-shrink: 0;
       width: 20px;
       height: 20px;
       fill: currentColor;
     }
 
-    /* Dark mode toggle inside sidebar */
+    /* Main content */
+    main {
+      margin-left: 280px;
+      padding: 100px 40px 40px;
+      max-width: 900px;
+      width: 100%;
+      transition: margin-left 0.3s ease;
+    }
+    main.full-width {
+      margin-left: 0;
+      padding: 100px 20px 40px;
+    }
+    section {
+      margin-bottom: 60px;
+      background: #fff;
+      padding: 32px 36px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+    }
+    section h2 {
+      margin-top: 0;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: #2c5282;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+    section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #4a5568;
+    }
+
+    /* Logos container */
+    .logos-container {
+      display: flex;
+      gap: 48px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .logos-container div {
+      text-align: center;
+      user-select: none;
+      flex: 1 0 110px;
+      max-width: 140px;
+    }
+    .logos-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgb(44 82 130 / 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      background: #fff;
+      padding: 15px;
+    }
+    .logos-container img:hover {
+      transform: scale(1.07);
+      box-shadow: 0 10px 30px rgb(44 82 130 / 0.4);
+    }
+    .logos-container p {
+      margin-top: 10px;
+      font-weight: 700;
+      color: #2a4365;
+      font-size: 1rem;
+      user-select: text;
+    }
+
+    /* Chart container */
+    #alpha-chart-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 12px 0 24px;
+    }
+
+    /* Dark mode toggle (small in sidebar) */
     .dark-mode-toggle {
       margin-top: auto;
-      padding-top: 20px;
-      border-top: 1px solid #004d40;
+      border-top: 1px solid #4c6ef5;
+      padding-top: 18px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      color: #b2dfdb;
+      align-items: center;
       font-weight: 600;
+      font-size: 0.9rem;
+      color: #bee3f8;
       user-select: none;
     }
     .switch {
       position: relative;
       display: inline-block;
-      width: 50px;
-      height: 26px;
+      width: 44px;
+      height: 22px;
     }
     .switch input {
       opacity: 0;
@@ -116,326 +264,115 @@
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #b2dfdb;
+      background-color: #718096;
       border-radius: 34px;
-      transition: .4s;
+      transition: 0.4s;
     }
     .slider:before {
       position: absolute;
       content: "";
-      height: 20px; width: 20px;
-      left: 3px;
-      bottom: 3px;
-      background-color: #004d40;
+      height: 18px;
+      width: 18px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
       border-radius: 50%;
-      transition: .4s;
+      transition: 0.4s;
     }
     input:checked + .slider {
-      background-color: #26a69a;
+      background-color: #63b3ed;
     }
     input:checked + .slider:before {
-      transform: translateX(24px);
-      background-color: #004d40;
+      transform: translateX(22px);
     }
 
-    /* Main content */
-    main {
-      margin-left: 280px;
-      padding: 30px 50px;
-      flex-grow: 1;
-      max-width: 900px;
-      transition: background 0.3s, color 0.3s;
-      scroll-behavior: smooth;
-      user-select: text;
-    }
-    section {
-      margin-bottom: 60px;
-      background: #ffffffdd;
-      padding: 25px 30px;
-      border-radius: 20px;
-      box-shadow:
-        0 10px 15px rgba(0,0,0,0.05),
-        inset 0 0 15px rgba(255,255,255,0.7);
-      transition: background 0.3s, color 0.3s;
-    }
-    section h2 {
-      margin-top: 0;
-      color: #00796b;
-      font-weight: 700;
-      font-size: 1.8rem;
-      letter-spacing: 0.03em;
-      text-shadow: 1px 1px 3px #b2dfdb;
-    }
-    p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #004d40;
-    }
-
-    /* Header */
-    header {
-      position: sticky;
-      top: 0;
-      background: #ffffffcc;
-      padding-bottom: 15px;
-      margin-bottom: 40px;
-      z-index: 5;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-      border-radius: 20px;
-      user-select: none;
-    }
-    header h1 {
-      margin: 0;
-      color: #00796b;
-      font-size: 2.4rem;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      text-shadow: 2px 2px 5px #80cbc4;
-    }
-    header p {
-      margin: 6px 0 0 0;
-      font-size: 1.2rem;
-      color: #004d40dd;
-      font-weight: 600;
-    }
-
-    /* Logos container */
-    .logos-container {
-      display: flex;
-      justify-content: center;
-      gap: 50px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
-    .logos-container div {
-      text-align: center;
-      user-select: none;
-    }
-    .logos-container img {
-      width: 110px;
-      height: auto;
-      background: white;
-      padding: 15px;
-      border-radius: 20px;
-      box-shadow:
-        0 6px 12px rgba(0,0,0,0.15);
-      transition: transform 0.3s ease;
-      cursor: pointer;
-      filter: drop-shadow(0 0 1px rgba(0,0,0,0.1));
-    }
-    .logos-container img:hover {
-      transform: scale(1.1) rotate(3deg);
-      filter: drop-shadow(0 6px 10px rgba(0,0,0,0.3));
-    }
-    .logos-container p {
-      margin-top: 10px;
-      font-weight: 700;
-      color: #004d40dd;
-      font-size: 1.1rem;
-    }
-
-    /* Chart container */
-    #alpha-chart-container {
-      max-width: 750px;
-      margin: 0 auto;
-      box-shadow:
-        0 10px 20px rgba(0,0,0,0.1);
-      border-radius: 20px;
-      padding: 15px 10px 25px 10px;
-      background: white;
-    }
-
-    /* Dark mode styles */
-    body.dark {
-      background: linear-gradient(135deg, #2e4e4e, #365f5f);
-      color: #cceee8;
-    }
-    body.dark aside {
-      background: linear-gradient(180deg, #004d40, #00695c);
-      color: #a7ffeb;
-      box-shadow: 4px 0 15px rgba(0, 100, 80, 0.8);
-    }
-    body.dark aside nav li a {
-      color: #a7ffeb;
-    }
-    body.dark aside nav li a:hover,
-    body.dark aside nav li a.active {
-      background: #004d40;
-      color: #b2dfdb;
-      box-shadow: 0 0 12px #26a69a;
-    }
-    body.dark main {
-      background: #154a47cc;
-      color: #a7ffeb;
-    }
-    body.dark section {
-      background: #0d3b37cc;
-      color: #b2dfdb;
-      box-shadow:
-        0 10px 15px rgba(0, 0, 0, 0.8),
-        inset 0 0 25px rgba(255, 255, 255, 0.1);
-    }
-    body.dark header {
-      background: #0d3b3788;
-      box-shadow: 0 4px 12px rgba(0, 200, 180, 0.5);
-    }
-    body.dark .logos-container img {
-      background: #004d40;
-      filter: drop-shadow(0 2px 8px #00796b);
-    }
-    body.dark .logos-container img:hover {
-      filter: drop-shadow(0 6px 12px #26a69a);
-      transform: scale(1.1) rotate(3deg);
-    }
-
-    /* Responsive mobile: sidebar collapses */
+    /* Responsive: Mobile */
     @media (max-width: 768px) {
       aside {
-        width: 230px;
-        left: -260px;
-        padding-top: 60px;
-        transition: left 0.3s ease;
-      }
-      aside.show {
+        position: fixed;
+        top: 64px;
         left: 0;
+        height: calc(100vh - 64px);
+        background: #2c5282;
+        width: 240px;
+        transform: translateX(-100%);
+      }
+      aside.open {
+        transform: translateX(0);
       }
       main {
         margin-left: 0;
-        padding: 20px 15px;
+        padding: 100px 20px 40px;
       }
       #menu-toggle {
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        background: #00796b;
-        border: none;
-        color: white;
-        padding: 10px 14px;
-        font-size: 1.6rem;
-        border-radius: 8px;
-        cursor: pointer;
-        z-index: 30;
-        box-shadow: 0 2px 10px rgba(0, 121, 107, 0.7);
-      }
-      .dark-mode-toggle {
-        margin-top: 15px;
-        padding-top: 0;
-        border-top: none;
-        justify-content: flex-start;
-        gap: 10px;
+        display: flex;
       }
     }
+
   </style>
 </head>
 <body>
 
-  <!-- Mobile Menu Toggle -->
-  <button id="menu-toggle" aria-label="Toggle menu" title="Toggle menu" style="display:none;">☰</button>
+  <header>
+    <div class="logo-title" aria-label="Site title and tagline">
+      <h1>Alpha Explorer</h1>
+      <div class="tagline">Building Alpha</div>
+    </div>
+    <button id="menu-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="sidebar">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-  <aside id="sidebar" role="navigation" aria-label="Primary sidebar menu">
-    <h2>Alpha Explorer</h2>
+  <aside id="sidebar" class="closed" role="navigation" aria-label="Primary sidebar navigation">
+    <h2>MENU</h2>
     <nav>
       <ul>
-        <li>
-          <a href="#alpha-section" class="nav-link active" aria-current="page" tabindex="0" >
-            <!-- Icon: Alpha (𝛼) -->
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛼</text></svg>
-            Alpha
-          </a>
-        </li>
-        <li>
-          <a href="#beta-section" class="nav-link" tabindex="0">
-            <!-- Icon: Beta (𝛽) -->
-            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><text x="3" y="18" font-size="20">𝛽</text></svg>
-            Beta
-          </a>
-        </li>
-        <li>
-          <a href="#power-law" class="nav-link" tabindex="0">
-            <!-- Icon: Lightning bolt -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-              <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-            Power Law
-          </a>
-        </li>
-        <li>
-          <a href="#asymmetric-bets" class="nav-link" tabindex="0">
-            <!-- Icon: Chart upwards -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-              <polyline points="6 12 10 16 18 8" />
-              <path d="M6 20h12v-4"/>
-            </svg>
-            Asymmetric Bets
-          </a>
-        </li>
-        <li>
-          <a href="#contrarian-investing" class="nav-link" tabindex="0">
-            <!-- Icon: Undo / reverse -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-              <polyline points="9 14 4 9 9 4" />
-              <path d="M20 20v-7a4 4 0 0 0-4-4H4" />
-            </svg>
-            Contrarian Investing
-          </a>
-        </li>
-        <li>
-          <a href="#stock-comparison" class="nav-link" tabindex="0">
-            <!-- Icon: Bar chart -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round">
-              <line x1="12" y1="20" x2="12" y2="10" />
-              <line x1="18" y1="20" x2="18" y2="4" />
-              <line x1="6" y1="20" x2="6" y2="16" />
-            </svg>
-            Stock Comparison
-          </a>
-        </li>
+        <li><a href="#alpha-section" class="nav-link active" tabindex="0">𝛼 Alpha</a></li>
+        <li><a href="#beta-section" class="nav-link" tabindex="0">𝛽 Beta</a></li>
+        <li><a href="#power-law" class="nav-link" tabindex="0">⚡ Power Law</a></li>
+        <li><a href="#asymmetric-bets" class="nav-link" tabindex="0">📈 Asymmetric Bets</a></li>
+        <li><a href="#contrarian-investing" class="nav-link" tabindex="0">↩ Contrarian Investing</a></li>
+        <li><a href="#stock-comparison" class="nav-link" tabindex="0">📊 Stock Comparison</a></li>
       </ul>
     </nav>
 
     <div class="dark-mode-toggle" role="region" aria-label="Toggle dark mode">
       <span>Dark Mode</span>
       <label class="switch">
-        <input type="checkbox" id="darkModeCheckbox" aria-checked="false" role="switch" />
+        <input type="checkbox" id="darkModeCheckbox" role="switch" aria-checked="false" />
         <span class="slider"></span>
       </label>
     </div>
   </aside>
 
   <main>
-    <header>
-      <h1>Alpha Explorer</h1>
-      <p>Explore key finance concepts like Alpha, Beta, Risk, and Return.</p>
-    </header>
-
-    <section id="alpha-section" tabindex="0">
+    <section id="alpha-section" tabindex="0" aria-label="Alpha section">
       <h2>What is Alpha?</h2>
       <p>Alpha measures the excess return of an investment relative to a benchmark index. A high alpha means you're beating the market!</p>
     </section>
 
-    <section id="beta-section" tabindex="0">
+    <section id="beta-section" tabindex="0" aria-label="Beta section">
       <h2>What is Beta?</h2>
       <p>Beta tells you how volatile a stock is compared to the market. A beta over 1 means the stock moves more than the market. A beta under 1 means it’s more stable.</p>
     </section>
 
-    <section id="power-law" tabindex="0">
+    <section id="power-law" tabindex="0" aria-label="Power law strategy section">
       <h2>Strategy: Power Law</h2>
       <p>The Power Law, as described by Peter Thiel, means that <strong>one investment can outperform all others combined</strong>. Instead of spreading money evenly, the best returns come from a few winners. In venture capital and startup investing, finding a "power law" opportunity — like Google or Facebook — can create massive alpha.</p>
       <p><em>“The biggest secret in venture capital is that the best investment in a successful fund equals or outperforms the entire rest of the fund combined.” – Peter Thiel</em></p>
     </section>
 
-    <section id="asymmetric-bets" tabindex="0">
+    <section id="asymmetric-bets" tabindex="0" aria-label="Asymmetric bets strategy section">
       <h2>Strategy: Asymmetric Bets</h2>
       <p>Asymmetric bets mean investing in opportunities where the potential upside far outweighs the downside risk. This approach allows investors to take calculated risks that can yield outsized returns without risking too much capital.</p>
     </section>
 
-    <section id="contrarian-investing" tabindex="0">
+    <section id="contrarian-investing" tabindex="0" aria-label="Contrarian investing strategy section">
       <h2>Strategy: Contrarian Investing</h2>
       <p>Contrarian investing is about going against the crowd. When most investors are fearful and selling, contrarians look for buying opportunities, and vice versa. This strategy can uncover undervalued assets that others overlook.</p>
     </section>
 
-    <section id="stock-comparison" tabindex="0">
+    <section id="stock-comparison" tabindex="0" aria-label="Stock alpha comparison section">
       <h2>Stock Alpha Comparison: Nvidia, Palantir, &amp; S&P 500</h2>
 
       <div class="logos-container" aria-label="Company logos">
@@ -448,64 +385,116 @@
           <p>Palantir (PLTR)</p>
         </div>
         <div>
-          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/S%26P_500_Index_logo.svg/512px-S%26P_500_Index_logo.svg.png" alt="S&P 500 Logo" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/S%26P_500_Logo.png/512px-S%26P_500_Logo.png" alt="S&P 500 Logo" />
           <p>S&amp;P 500 Index (Market)</p>
         </div>
       </div>
 
       <div id="alpha-chart-container">
-        <canvas id="alphaChart" aria-label="Alpha comparison line chart" role="img"></canvas>
+        <canvas id="alpha-chart" aria-label="Alpha values line chart" role="img"></canvas>
       </div>
-
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    // Chart.js line chart data and config for Alpha comparison
-    const ctx = document.getElementById('alphaChart').getContext('2d');
+    // Sidebar toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    menuToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      menuToggle.classList.toggle('open');
+      const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!expanded));
+    });
 
-    const data = {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-      datasets: [
-        {
-          label: 'Nvidia (NVDA)',
-          data: [0.15, 0.2, 0.3, 0.4, 0.55, 0.6, 0.75],
-          borderColor: '#76b900',
-          backgroundColor: 'rgba(118,185,0,0.3)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
-          pointHoverRadius: 7,
-        },
-        {
-          label: 'Palantir (PLTR)',
-          data: [0.05, 0.1, 0.2, 0.25, 0.22, 0.27, 0.35],
-          borderColor: '#0d47a1',
-          backgroundColor: 'rgba(13,71,161,0.3)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
-          pointHoverRadius: 7,
-        },
-        {
-          label: 'S&P 500 Index',
-          data: [0.07, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2],
-          borderColor: '#bdbdbd',
-          backgroundColor: 'rgba(189,189,189,0.2)',
-          fill: true,
-          tension: 0.3,
-          pointRadius: 4,
-          pointHoverRadius: 7,
-        }
-      ]
-    };
+    // Nav link active highlight and smooth scroll
+    const navLinks = document.querySelectorAll('nav a.nav-link');
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        sidebar.classList.remove('open');
+        menuToggle.classList.remove('open');
+        menuToggle.setAttribute('aria-expanded', 'false');
 
-    const config = {
+        const targetID = link.getAttribute('href').substring(1);
+        const targetSection = document.getElementById(targetID);
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        targetSection.focus({preventScroll: true});
+      });
+    });
+
+    // Dark mode toggle
+    const darkModeCheckbox = document.getElementById('darkModeCheckbox');
+    const body = document.body;
+    darkModeCheckbox.addEventListener('change', () => {
+      if(darkModeCheckbox.checked) {
+        body.classList.add('dark');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        body.classList.remove('dark');
+        localStorage.setItem('darkMode', 'false');
+      }
+      darkModeCheckbox.setAttribute('aria-checked', darkModeCheckbox.checked);
+    });
+
+    // Load saved dark mode
+    if(localStorage.getItem('darkMode') === 'true') {
+      darkModeCheckbox.checked = true;
+      body.classList.add('dark');
+      darkModeCheckbox.setAttribute('aria-checked', 'true');
+    }
+
+    // Chart.js line chart setup
+    const ctx = document.getElementById('alpha-chart').getContext('2d');
+    const alphaChart = new Chart(ctx, {
       type: 'line',
-      data: data,
+      data: {
+        labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+        datasets: [
+          {
+            label: 'Nvidia (NVDA) Alpha',
+            data: [1.2, 1.5, 2.3, 3.0, 4.1, 5.2],
+            borderColor: '#68d391',
+            backgroundColor: 'rgba(104, 211, 145, 0.3)',
+            tension: 0.25,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderWidth: 3,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: 'Palantir (PLTR) Alpha',
+            data: [0.8, 0.6, 0.7, 1.0, 1.3, 1.4],
+            borderColor: '#4299e1',
+            backgroundColor: 'rgba(66, 153, 225, 0.3)',
+            tension: 0.25,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderWidth: 3,
+            cubicInterpolationMode: 'monotone'
+          },
+          {
+            label: 'S&P 500 Market Alpha',
+            data: [1, 1, 1, 1, 1, 1],
+            borderColor: '#718096',
+            borderDash: [8, 6],
+            backgroundColor: 'transparent',
+            tension: 0,
+            fill: false,
+            pointRadius: 0,
+            borderWidth: 2,
+          }
+        ]
+      },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
+        aspectRatio: 2,
         interaction: {
           mode: 'nearest',
           intersect: false,
@@ -517,96 +506,57 @@
                 size: 14,
                 weight: '700',
               },
-              color: '#004d40',
+              color: '#2a4365',
             }
           },
           tooltip: {
             enabled: true,
-            backgroundColor: '#004d40cc',
-            titleFont: { weight: '700' },
-            bodyFont: { weight: '600' },
+            mode: 'nearest',
+            intersect: false,
+            backgroundColor: '#2a4365cc',
+            titleFont: {weight: '700'},
+            bodyFont: {weight: '600'},
             padding: 10,
           }
         },
         scales: {
           y: {
             beginAtZero: true,
-            max: 1,
+            title: {
+              display: true,
+              text: 'Alpha Value',
+              color: '#2a4365',
+              font: { size: 14, weight: '700' }
+            },
             ticks: {
-              color: '#00796b',
-              font: {
-                weight: '600',
-              },
-              stepSize: 0.1,
-              callback: value => (value * 100).toFixed(0) + '%',
+              color: '#2a4365',
+              font: {weight: '600'}
             },
             grid: {
-              color: '#b2dfdb',
-              borderColor: '#004d40',
+              color: '#cbd5e0',
+              borderColor: '#a0aec0',
             }
           },
           x: {
+            title: {
+              display: true,
+              text: 'Year',
+              color: '#2a4365',
+              font: { size: 14, weight: '700' }
+            },
             ticks: {
-              color: '#00796b',
-              font: {
-                weight: '600',
-              }
+              color: '#2a4365',
+              font: {weight: '600'}
             },
             grid: {
-              color: '#b2dfdb',
-              borderColor: '#004d40',
+              color: '#e2e8f0',
+              borderColor: '#a0aec0',
             }
           }
         }
       }
-    };
-
-    const alphaChart = new Chart(ctx, config);
-
-    // Dark mode toggle logic
-    const checkbox = document.getElementById('darkModeCheckbox');
-    const body = document.body;
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        body.classList.add('dark');
-        checkbox.setAttribute('aria-checked', 'true');
-      } else {
-        body.classList.remove('dark');
-        checkbox.setAttribute('aria-checked', 'false');
-      }
-    });
-
-    // Mobile menu toggle
-    const menuToggle = document.getElementById('menu-toggle');
-    const sidebar = document.getElementById('sidebar');
-
-    function handleResize() {
-      if(window.innerWidth <= 768) {
-        menuToggle.style.display = 'block';
-        sidebar.classList.remove('show');
-      } else {
-        menuToggle.style.display = 'none';
-        sidebar.classList.add('show');
-      }
-    }
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    menuToggle.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
-    });
-
-    // Navigation link active states
-    const navLinks = document.querySelectorAll('aside nav a.nav-link');
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        navLinks.forEach(l => l.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        if(window.innerWidth <= 768) {
-          sidebar.classList.remove('show');
-        }
-      });
     });
   </script>
+
 </body>
 </html>
