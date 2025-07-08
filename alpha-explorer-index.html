@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alpha Explorer</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: #fdfdfd; color: #222; line-height: 1.6; padding: 20px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    h1, h2 { color: #003366; }
+    img.logo { width: 48px; vertical-align: middle; margin-right: 8px; }
+    .container { max-width: 900px; margin: auto; }
+    ul.alpha-list {
+      list-style: none; padding: 0; display: flex; gap: 20px; justify-content: center; margin-bottom: 30px;
+    }
+    ul.alpha-list li {
+      background: #f0f0f0; border-radius: 12px; padding: 15px 20px; flex: 1; text-align: center;
+      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1); transition: background 0.3s ease;
+    }
+    ul.alpha-list li strong { display: block; margin-top: 8px; font-size: 1.1rem; color: #003366; }
+    ul.alpha-list li span { font-size: 1.6rem; font-weight: 700; color: #ff6600; margin-top: 6px; display: block; }
+    section.definitions {
+      background: #e6f0ff; padding: 20px; border-radius: 12px;
+      box-shadow: 0 2px 8px rgb(0 51 102 / 0.15); margin-bottom: 30px;
+    }
+    section.definitions h2 {
+      margin-top: 0; border-bottom: 2px solid #003366; padding-bottom: 6px; margin-bottom: 15px;
+    }
+    section.definitions p { margin-bottom: 12px; }
+    body.dark-mode { background-color: #121212; color: #ddd; }
+    body.dark-mode ul.alpha-list li { background: #1e1e1e; box-shadow: 0 2px 5px rgb(255 255 255 / 0.1); }
+    body.dark-mode ul.alpha-list li strong { color: #66aaff; }
+    body.dark-mode ul.alpha-list li span { color: #ffa64d; }
+    body.dark-mode section.definitions { background: #222; box-shadow: 0 2px 8px rgb(102 170 255 / 0.3); }
+    body.dark-mode h1, body.dark-mode h2 { color: #66aaff; }
+    .toggle-container { text-align: right; margin-bottom: 20px; }
+    .toggle-label {
+      cursor: pointer; user-select: none; font-size: 0.9rem; color: #003366;
+      display: inline-flex; align-items: center; gap: 8px; font-weight: 600;
+    }
+    body.dark-mode .toggle-label { color: #66aaff; }
+    .toggle-switch {
+      position: relative; display: inline-block; width: 50px; height: 24px;
+    }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #ccc; transition: 0.4s; border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute; content: ""; height: 18px; width: 18px;
+      left: 3px; bottom: 3px; background-color: white;
+      transition: 0.4s; border-radius: 50%;
+    }
+    input:checked + .slider { background-color: #2196F3; }
+    input:checked + .slider:before { transform: translateX(26px); }
+    footer { margin-top: 40px; font-size: 0.9rem; text-align: center; color: #555; }
+    body.dark-mode footer { color: #aaa; }
+    @media (max-width: 600px) {
+      ul.alpha-list { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toggle-container">
+      <label class="toggle-label" for="darkModeToggle">
+        Dark Mode
+        <div class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" />
+          <span class="slider"></span>
+        </div>
+      </label>
+    </div>
+
+    <h1>Alpha Explorer</h1>
+
+    <ul class="alpha-list">
+      <li><img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/S%26P_500.png" alt="S&P 500 Logo" />
+        <strong>S&P 500</strong><span>1.1</span>%</li>
+      <li><img class="logo" src="https://upload.wikimedia.org/wikipedia/sco/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
+        <strong>Nvidia (NVDA)</strong><span>17.2</span>%</li>
+      <li><img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/1/13/Palantir_Technologies_logo.svg" alt="Palantir Logo" />
+        <strong>Palantir (PLTR)</strong><span>12.6</span>%</li>
+    </ul>
+
+    <section class="definitions">
+      <h2>Definitions</h2>
+      <p><strong>Alpha:</strong> A measure of an investment's performance relative to a benchmark index like the S&P 500.</p>
+      <p><strong>Beta:</strong> A measure of volatility relative to the market.</p>
+      <p><strong>Power Law:</strong> A few investments generate most of the returns.</p>
+      <p><strong>Contrarian Investing:</strong> Going against prevailing market trends.</p>
+    </section>
+
+    <section class="definitions">
+      <h2>Which stocks are you investing in? Why?</h2>
+      <form action="https://formspree.io/f/xgvyjodl" method="POST">
+        <label for="stock-answer">Your answer</label><br />
+        <textarea id="stock-answer" name="answer" rows="4" required></textarea><br />
+        <label for="email">Your email address</label><br />
+        <input type="email" id="email" name="email" required /><br />
+        <label><input type="checkbox" name="subscribe" /> Subscribe to email updates</label><br /><br />
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+
+    <footer>
+      &copy; 2025 Alpha Explorer. All rights reserved. |
+      <a href="mailto:youremail@example.com">Email</a> |
+      <a href="https://linkedin.com/in/yourusername" target="_blank">LinkedIn</a>
+    </footer>
+  </div>
+
+  <script>
+    const toggle = document.getElementById('darkModeToggle');
+    const body = document.body;
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      body.classList.add('dark-mode');
+      toggle.checked = true;
+    }
+    toggle.addEventListener('change', () => {
+      if (toggle.checked) {
+        body.classList.add('dark-mode');
+        localStorage.setItem('darkMode', 'enabled');
+      } else {
+        body.classList.remove('dark-mode');
+        localStorage.setItem('darkMode', 'disabled');
+      }
+    });
+  </script>
+</body>
+</html>
