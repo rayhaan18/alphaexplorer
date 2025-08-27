@@ -209,7 +209,7 @@
       <li>
         <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/S%26P_500.png" alt="S&P 500 Logo" />
         <strong id="s&p500">S&P 500</strong>
-        <span id="nvidia-alpha"></span>
+        <span id="sp500-alpha"></span>
       </li>
       <li>
         <img class="logo" src="https://upload.wikimedia.org/wikipedia/sco/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
@@ -226,15 +226,15 @@
   <section class="charts">
     <div class="chart-card">
       <h3>NVIDIA (NVDA)</h3>
-      <img src="nvda_chart.png" alt="NVIDIA Stock Chart" width="600" height="400>
+      <img src="nvda_charts.png" alt="NVIDIA Stock Chart">
     </div>
     <div class="chart-card">
       <h3>Palantir (PLTR)</h3>
-      <img src="pltr_chart.png" alt="Palantir Stock Chart"width="600" height="400>
+      <img src="pltr_charts.png" alt="Palantir Stock Chart">
     </div>
     <div class="chart-card">
       <h3>S&P 500 (SPX)</h3>
-      <img src="sp500_chart.png" alt="S&P 500 Stock Chart"width="600" height="400>
+      <img src="sp500_charts.png" alt="S&P 500 Stock Chart">
     </div>
   </section>
     <section class="definitions" aria-label="Definitions of investment terms">
@@ -301,5 +301,94 @@
       }
     });
   </script>
+  <!-- Stock Chatbot Section -->
+<section id="chatbot" style="padding: 40px; background: #111; color: white;">
+  <h2 class="text-2xl font-bold mb-4">💬 What stocks would you invest in and why?</h2>
+  <div id="chat-container" style="max-width: 600px; margin: auto; border: 1px solid #444; border-radius: 12px; padding: 20px; background: #1a1a1a; height: 400px; overflow-y: auto;">
+    <div class="bot-message">👋 Hi! I’m your stock buddy. Tell me a stock you’d invest in and why, and I’ll give you my thoughts.</div>
+  </div>
+  
+  <div style="display: flex; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <input type="text" id="user-input" placeholder="Type your answer here..." 
+           style="flex: 1; padding: 10px; border: none; border-radius: 8px 0 0 8px; outline: none;">
+    <button onclick="sendMessage()" 
+            style="padding: 10px 20px; background: #007bff; border: none; color: white; font-weight: bold; border-radius: 0 8px 8px 0;">Send</button>
+  </div>
+</section>
+
+<script>
+  const chatContainer = document.getElementById("chat-container");
+  const userInput = document.getElementById("user-input");
+
+  // Stock "knowledge base" for the bot
+  const stockResponses = {
+    "AAPL": "🍏 Apple is a strong tech giant with steady cash flows. Many invest for stability & iPhone ecosystem.",
+    "TSLA": "🚗 Tesla is high growth but volatile. It's popular among risk-takers who believe in EVs long-term.",
+    "NVDA": "⚡ Nvidia dominates AI & GPU chips. Very high growth, but priced aggressively.",
+    "AMZN": "📦 Amazon has huge e-commerce & AWS cloud revenue. A long-term compounder.",
+    "GOOGL": "🔍 Alphabet leads in search & AI. Cash-rich and diversified.",
+    "MSFT": "💻 Microsoft is stable with strong cloud growth (Azure). Often seen as a safe big tech pick.",
+    "SPY": "📊 SPY tracks the S&P 500 — great for diversification if you don’t want to pick individual stocks."
+  };
+
+  // Function to send user message and get bot reply
+  function sendMessage() {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    // Show user message
+    appendMessage("user", message);
+
+    // Generate bot response
+    let response = "🤔 Interesting choice! Tell me more about your reasoning.";
+    for (let stock in stockResponses) {
+      if (message.toUpperCase().includes(stock)) {
+        response = stockResponses[stock];
+        break;
+      }
+    }
+
+    // Add a "teaching" reply if user gives reasoning
+    if (message.toLowerCase().includes("because") || message.toLowerCase().includes("why")) {
+      response += " ✅ I like that you explained your reasoning. Thinking about *why* is key in investing!";
+    }
+
+    setTimeout(() => appendMessage("bot", response), 600);
+
+    userInput.value = "";
+  }
+
+  // Append messages to chat
+  function appendMessage(sender, text) {
+    const div = document.createElement("div");
+    div.className = sender === "user" ? "user-message" : "bot-message";
+    div.style.margin = "10px 0";
+    div.style.padding = "10px";
+    div.style.borderRadius = "8px";
+    div.style.maxWidth = "80%";
+    div.style.wordWrap = "break-word";
+    
+    if (sender === "user") {
+      div.style.background = "#007bff";
+      div.style.color = "white";
+      div.style.marginLeft = "auto";
+    } else {
+      div.style.background = "#333";
+      div.style.color = "#fff";
+      div.style.marginRight = "auto";
+    }
+
+    div.textContent = text;
+    chatContainer.appendChild(div);
+    chatContainer.scrollTop = chatContainer.scrollHeight;
+  }
+
+  // Allow Enter key to send
+  userInput.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+      sendMessage();
+    }
+  });
+</script>
 </body>
 </html>
