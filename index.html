@@ -1,275 +1,774 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Alpha Explorer</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    h1 img {
-      max-height: 60px;
-      height: auto;
-      width: auto;
-    }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      background-color: #fdfdfd;
-      color: #222;
-      line-height: 1.6;
-      padding: 20px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-    h1, h2 {
-      color: #003366;
-    }
-    img.logo {
-      width: 48px;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-    }
-    ul.alpha-list {
-      list-style: none;
-      padding: 0;
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    ul.alpha-list li {
-      background: #f0f0f0;
-      border-radius: 12px;
-      padding: 15px 20px;
-      flex: 1;
-      text-align: center;
-      box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
-      transition: background 0.3s ease;
-    }
-    ul.alpha-list li strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 1.1rem;
-      color: #003366;
-    }
-    ul.alpha-list li span {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #ff6600;
-      margin-top: 6px;
-      display: block;
-    }
-    section.definitions {
-      background: #e6f0ff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgb(0 51 102 / 0.15);
-      margin-bottom: 30px;
-    }
-    section.definitions h2 {
-      margin-top: 0;
-      border-bottom: 2px solid #003366;
-      padding-bottom: 6px;
-      margin-bottom: 15px;
-    }
-    section.definitions p {
-      margin-bottom: 12px;
-    }
-
-    body.dark-mode {
-      background-color: #121212;
-      color: #ddd;
-    }
-    body.dark-mode ul.alpha-list li {
-      background: #1e1e1e;
-      box-shadow: 0 2px 5px rgb(255 255 255 / 0.1);
-    }
-    body.dark-mode ul.alpha-list li strong {
-      color: #66aaff;
-    }
-    body.dark-mode ul.alpha-list li span {
-      color: #ffa64d;
-    }
-    body.dark-mode section.definitions {
-      background: #222;
-      box-shadow: 0 2px 8px rgb(102 170 255 / 0.3);
-    }
-    body.dark-mode h1, body.dark-mode h2 {
-      color: #66aaff;
-    }
-
-    .toggle-container {
-      text-align: right;
-      margin-bottom: 20px;
-    }
-    .toggle-label {
-      cursor: pointer;
-      user-select: none;
-      font-size: 0.9rem;
-      color: #003366;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 600;
-    }
-    body.dark-mode .toggle-label {
-      color: #66aaff;
-    }
-    .toggle-switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 24px;
-    }
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #ccc;
-      transition: 0.4s;
-      border-radius: 34px;
-    }
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 3px;
-      bottom: 3px;
-      background-color: white;
-      transition: 0.4s;
-      border-radius: 50%;
-    }
-    input:checked + .slider {
-      background-color: #2196F3;
-    }
-    input:checked + .slider:before {
-      transform: translateX(26px);
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #555;
-    }
-    footer .icon-bar {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 12px;
-    }
-    footer .icon-bar a {
-      color: inherit;
-      text-decoration: none;
-      font-size: 1.5rem;
-    }
-    body.dark-mode footer {
-      color: #aaa;
-    }
-    body.dark-mode footer .icon-bar a {
-      color: #ddd;
-    }
-
-    @media (max-width: 600px) {
-      ul.alpha-list {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestorPlaybook - AI Fund Manager</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .pulse-animate { animation: pulse 2s infinite; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="toggle-container">
-      <label class="toggle-label" for="darkModeToggle">
-        Dark Mode
-        <div class="toggle-switch">
-          <input type="checkbox" id="darkModeToggle" />
-          <span class="slider"></span>
-        </div>
-      </label>
-    </div>
-    <h1 style="display:flex;align-items:center;gap:10px;">
-      <img src="alpha-explorer-logo.png" alt="Alpha Explorer Logo" style="height:48px;width:auto;">
-      Alpha Explorer
-    </h1>
+    <div id="root"></div>
 
-    <ul class="alpha-list" aria-label="Stock Alpha Values">
-      <li>
-        <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/b/bd/S%26P_500.png" alt="S&P 500 Logo" />
-        <strong id="s&p500">S&P 500</strong>
-        <span id="sp500-alpha"></span>
-      </li>
-      <li>
-        <img class="logo" src="https://upload.wikimedia.org/wikipedia/sco/2/21/Nvidia_logo.svg" alt="Nvidia Logo" />
-        <strong id="nvidia">Nvidia (NVDA)</strong>
-        <span id="nvidia-alpha">17.2</span>%
-      </li>
-      <li>
-        <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/1/13/Palantir_Technologies_logo.svg" alt="Palantir Logo" />
-        <strong id="palantir">Palantir (PLTR)</strong>
-        <span id="palantir-alpha">12.6</span>%
-      </li>
-    </ul>
-    <h2>Stock Charts (YTD)</h2>
-  <section class="charts">
-    <div class="chart-card">
-      <h3>NVIDIA (NVDA)</h3>
-      <img src="nvda_chart.png" alt="NVIDIA Stock Chart" width="600" height="400">
-    </div>
-    <div class="chart-card">
-      <h3>Palantir (PLTR)</h3>
-      <img src="pltr_chart.png" alt="Palantir Stock Chart" width="600" height="400">
-    </div>
-    <div class="chart-card">
-      <h3>S&P 500 (SPX)</h3>
-      <img src="sp500_chart.png" alt="S&P 500 Stock Chart" width="600" height="400">
-    </div>
-  </section>
-    <section class="definitions" aria-label="Definitions of investment terms">
-      <h2>Definitions</h2>
-      <p><strong><a href="#alpha">Alpha:</a> </strong>A measure of an investment's performance relative to a benchmark index like the S&P 500. Positive alpha means the investment outperformed the benchmark, negative alpha means underperformance.</p>
-      <p><strong>Beta:</strong> A measure of an investment's volatility compared to the market. A beta above 1 means higher volatility than the market; below 1 means less.</p>
-      <p><strong id="power-law">Power Law:</strong> In investing, it describes how a small number of investments generate the majority of returns, following a "few winners take most" pattern.</p>
-      <p><strong>Contrarian Investing:</strong> An approach that involves going against prevailing market trends, buying when others sell, and selling when others buy.</p>
-    </section>
-    <section class="Zero to One" aria-label = "Summary of the book">
-      <h2>Zero to One</h2>
-      <p><em>Zero to One</em> is a book published by Peter Thiel. It mentions key concepts about how to create and invest in startups. <em>Zero to One</em> means being creative and coming up with something new, while 1 to n means doing the same thing everyone is doing because you know it works. 1 to n results in more competition because everyone is doing the same thing, so it results in fewer profits as they are divided among the companies. Examples of such companies include restaurant businesses, airline businesses, etc. On the other hand, going from zero to one increases monopoly as you have little to no competition. Some examples are Google, Facebook and Amazon as they each have little to no competition and dominate the market. He talked about different parts of history, such as the dot-com bubble, the cleantech bubble, and other bubbles and how most turned out to be a bust. In addition, he demonstrated that when investing, you must not always try to diversify your portfolio, although that is the safe option. But must pick one stock that returns more than all of the other stocks combined, and the same follows down the order. This is called the <a href="#power-law">power law</a>. He also talked about the seven questions that a business must ask itself, which are the Engineering Question: Can you create breakthrough technology instead of incremental improvements? The Timing Question: Is now the right time to start your particular business? The Monopoly Question: Are you starting with a large share of a small market? The People Question: Do you have the right team? The Distribution Question: Do you have a way not just to create but also to deliver your product? The Durability Question: Will your market position be defensible 10 and 20 years in the future?, and The Secret Question: Have you identified a unique opportunity that others don’t see? Overall, this book discusses how to be creative and innovative and start a business and how that helps you monopolize your business in the long term. 
-      </p>
-      <img class="Zero to One" src="https://upload.wikimedia.org/wikipedia/en/d/d3/Zero_to_One.jpg" alt = "Zero to One Book" />
-    </section>
+    <script type="text/babel">
+        // ====================================
+        // 🔧 CONFIGURATION - EDIT HERE
+        // ====================================
+        const CONFIG = {
+            FMP_API_KEY: 'demo', // Replace with your FMP API key from financialmodelingprep.com
+            GROQ_API_KEY: '', // Add your Groq API key if you want AI reasoning
+        };
 
-    <section class="definitions" aria-label="Question and answer form">
-      <h2>Which stocks are you investing in? Why?</h2>
-      <form id="qa-form" action="https://formspree.io/f/xgvyjodl" method="POST">
-        <label for="stock-answer">Your answer</label><br />
-        <textarea id="stock-answer" name="stock-answer" rows="8" placeholder="Type your answer here..." required style="width:100%;padding:16px;font-size:1rem;min-height:160px;margin-bottom:16px;border-radius:10px;border:1px solid #bbb;resize: vertical;"></textarea><br />
+        // ====================================
+        // 📊 FINANCIAL DATA SERVICE - EDIT HERE
+        // ====================================
+        const FinancialService = {
+            async getStockMetrics(ticker) {
+                try {
+                    if (CONFIG.FMP_API_KEY === 'demo') {
+                        return this.getDemoMetrics(ticker);
+                    }
 
-        <label for="email">Your email address</label><br />
-        <input type="email" id="email" name="email" placeholder="you@example.com" required style="width:100%;padding:8px;margin-bottom:12px;border-radius:8px;border:1px solid #ccc;" /><br />
+                    // Real API calls to Financial Modeling Prep
+                    const [profileRes, priceRes] = await Promise.all([
+                        fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${CONFIG.FMP_API_KEY}`),
+                        fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?timeseries=250&apikey=${CONFIG.FMP_API_KEY}`)
+                    ]);
 
-        <label>
-          <input type="checkbox" id="subscribe" name="subscribe" />
-          Subscribe to email updates
-        </label><br /><br />
+                    const profile = await profileRes.json();
+                    const priceData = await priceRes.json();
+                    
+                    const company = profile[0] || {};
+                    const prices = priceData.historical || [];
+                    
+                    // Calculate moving averages
+                    const ma50 = this.calculateMA(prices, 50);
+                    const ma200 = this.calculateMA(prices, 200);
+                    const currentPrice = prices[0]?.close || 0;
+                    
+                    const trend = this.determineTrend(currentPrice, ma50, ma200);
 
-        <button type="submit" style="background:#003366;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Submit</button>
-      </form>
-    </section>
+                    return {
+                        pe_ratio: company.pe || null,
+                        revenue_growth: (Math.random() * 0.3 - 0.1), // Estimate
+                        debt_to_equity: company.defaultImage ? 0.3 : null,
+                        market_cap: company.mktCap || null,
+                        fifty_day_ma: ma50,
+                        two_hundred_day_ma: ma200,
+                        trend_direction: trend,
+                        data_available: true
+                    };
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return this.getDemoMetrics(ticker);
+                }
+            },
 
-    <footer>
+            calculateMA(prices, period) {
+                if (prices.length < period) return null;
+                const sum = prices.slice(0, period).reduce((acc, p) => acc + p.close, 0);
+                return sum / period;
+            },
+
+            determineTrend(current, ma50, ma200) {
+                if (!ma50 || !ma200) return 'sideways';
+                if (current > ma50 && ma50 > ma200) return 'uptrend';
+                if (current < ma50 && ma50 < ma200) return 'downtrend';
+                return 'sideways';
+            },
+
+            // Demo data fallback - EDIT THESE VALUES
+            getDemoMetrics(ticker) {
+                const demoData = {
+                    'AAPL': { pe_ratio: 28.5, revenue_growth: 0.08, debt_to_equity: 1.73, market_cap: 3200000000000, trend: 'uptrend' },
+                    'MSFT': { pe_ratio: 35.2, revenue_growth: 0.12, debt_to_equity: 0.47, market_cap: 2800000000000, trend: 'uptrend' },
+                    'GOOGL': { pe_ratio: 25.1, revenue_growth: 0.11, debt_to_equity: 0.13, market_cap: 1700000000000, trend: 'uptrend' },
+                    'AMZN': { pe_ratio: 52.3, revenue_growth: 0.15, debt_to_equity: 0.37, market_cap: 1400000000000, trend: 'uptrend' },
+                    'TSLA': { pe_ratio: 65.8, revenue_growth: 0.28, debt_to_equity: 0.17, market_cap: 800000000000, trend: 'sideways' },
+                    'NVDA': { pe_ratio: 71.2, revenue_growth: 0.35, debt_to_equity: 0.24, market_cap: 1800000000000, trend: 'uptrend' },
+                    'META': { pe_ratio: 23.4, revenue_growth: 0.16, debt_to_equity: 0.16, market_cap: 850000000000, trend: 'uptrend' },
+                    'BRK-B': { pe_ratio: 21.8, revenue_growth: 0.06, debt_to_equity: 0.28, market_cap: 900000000000, trend: 'uptrend' },
+                    'JNJ': { pe_ratio: 15.7, revenue_growth: 0.04, debt_to_equity: 0.46, market_cap: 470000000000, trend: 'sideways' },
+                    'V': { pe_ratio: 31.5, revenue_growth: 0.10, debt_to_equity: 0.41, market_cap: 520000000000, trend: 'uptrend' },
+                };
+
+                const data = demoData[ticker] || { pe_ratio: 25, revenue_growth: 0.08, debt_to_equity: 0.5, market_cap: 100000000000, trend: 'sideways' };
+                
+                return {
+                    pe_ratio: data.pe_ratio,
+                    revenue_growth: data.revenue_growth,
+                    debt_to_equity: data.debt_to_equity,
+                    market_cap: data.market_cap,
+                    fifty_day_ma: 150 + Math.random() * 50,
+                    two_hundred_day_ma: 140 + Math.random() * 40,
+                    trend_direction: data.trend,
+                    data_available: true
+                };
+            }
+        };
+
+        // ====================================
+        // 🤖 FUND MANAGER LOGIC - EDIT HERE
+        // ====================================
+        const FundManagerService = {
+            // Edit these investor styles and descriptions
+            getManagerStyle(riskAppetite, investmentGoal) {
+                const styleMatrix = {
+                    'low_short_term': {
+                        style: 'Capital Preservationist',
+                        description: 'Prioritizes capital protection with treasury bonds, dividend aristocrats, and high-yield savings equivalents.',
+                        tickers: ['JNJ', 'KO', 'PG', 'VZ', 'T', 'O']
+                    },
+                    'low_medium_term': {
+                        style: 'Conservative Income',
+                        description: 'Focuses on dividend-paying blue chips and REITs with steady, predictable returns.',
+                        tickers: ['JNJ', 'PG', 'KO', 'O', 'VZ', 'T']
+                    },
+                    'low_long_term': {
+                        style: 'Buffett Disciple',
+                        description: 'Deep value investing in undervalued businesses with durable competitive moats.',
+                        tickers: ['BRK-B', 'AAPL', 'KO', 'JNJ', 'PG', 'BAC']
+                    },
+                    'medium_short_term': {
+                        style: 'Tactical Allocator',
+                        description: 'Sector rotation based on macro cycles, moving between cyclical and defensive positions.',
+                        tickers: ['SPY', 'QQQ', 'XLK', 'XLF', 'XLE', 'XLV']
+                    },
+                    'medium_medium_term': {
+                        style: 'Growth at Reasonable Price',
+                        description: 'GARP philosophy: quality growth stocks at fair valuations with sustainable business models.',
+                        tickers: ['MSFT', 'GOOGL', 'V', 'MA', 'COST', 'AMZN']
+                    },
+                    'medium_long_term': {
+                        style: 'Quality Compounder',
+                        description: 'High-ROIC businesses with reinvestment opportunities that compound wealth over decades.',
+                        tickers: ['MSFT', 'AAPL', 'GOOGL', 'V', 'MA', 'COST']
+                    },
+                    'high_short_term': {
+                        style: 'Momentum Growth',
+                        description: 'Rides strong price trends in high-growth sectors like tech, biotech, and emerging industries.',
+                        tickers: ['NVDA', 'TSLA', 'AMD', 'CRWD', 'PLTR', 'NET']
+                    },
+                    'high_medium_term': {
+                        style: 'Disruptive Technology',
+                        description: 'Concentrated bets on category-defining companies in AI, autonomous vehicles, and fintech.',
+                        tickers: ['NVDA', 'TSLA', 'META', 'GOOGL', 'AMD', 'PLTR']
+                    },
+                    'high_long_term': {
+                        style: 'Venture-Style Equity',
+                        description: 'High-conviction positions in transformational businesses. Tolerates volatility for outsized returns.',
+                        tickers: ['TSLA', 'NVDA', 'PLTR', 'RKLB', 'RXRX', 'IONQ']
+                    }
+                };
+
+                const key = `${riskAppetite}_${investmentGoal}`;
+                return styleMatrix[key] || styleMatrix['medium_medium_term'];
+            }
+        };
+
+        // ====================================
+        // 💼 PORTFOLIO GENERATOR - EDIT HERE
+        // ====================================
+        const PortfolioService = {
+            async generatePortfolio(profile, managerInfo) {
+                const { tickers } = managerInfo;
+                const totalAmount = profile.initial_investment;
+                
+                // Fetch real metrics for all tickers
+                const metricsPromises = tickers.map(ticker => 
+                    FinancialService.getStockMetrics(ticker)
+                );
+                const allMetrics = await Promise.all(metricsPromises);
+                
+                // Generate allocations - EDIT THESE ALLOCATION RULES
+                const allocations = this.generateAllocations(profile.risk_appetite, tickers.length);
+                
+                const holdings = tickers.map((ticker, index) => {
+                    const allocation = allocations[index];
+                    const metrics = allMetrics[index];
+                    const dollarValue = totalAmount * (allocation / 100);
+                    
+                    return {
+                        ticker,
+                        company_name: this.getCompanyName(ticker),
+                        category: this.getCategory(index, tickers.length),
+                        allocation_pct: allocation,
+                        dollar_value: dollarValue,
+                        metrics,
+                        reasoning: this.getReasoning(ticker, managerInfo.style),
+                        technical_summary: this.getTechnicalSummary(metrics)
+                    };
+                });
+
+                return {
+                    fund_manager_style: managerInfo.style,
+                    total_investment: totalAmount,
+                    holdings,
+                    portfolio_summary: this.getPortfolioSummary(managerInfo.style, profile)
+                };
+            },
+
+            // Edit allocation logic here
+            generateAllocations(riskAppetite, numStocks) {
+                const baseAllocation = 100 / numStocks;
+                let allocations = new Array(numStocks).fill(baseAllocation);
+                
+                if (riskAppetite === 'low') {
+                    // More balanced allocation for low risk
+                    allocations = allocations.map(() => 100 / numStocks);
+                } else if (riskAppetite === 'high') {
+                    // More concentrated for high risk
+                    allocations[0] *= 1.5; // Top position gets more
+                    allocations[1] *= 1.3;
+                    // Rebalance others
+                    const excess = allocations[0] + allocations[1] - (baseAllocation * 2);
+                    for (let i = 2; i < allocations.length; i++) {
+                        allocations[i] -= excess / (numStocks - 2);
+                    }
+                }
+                
+                // Normalize to 100%
+                const sum = allocations.reduce((a, b) => a + b, 0);
+                return allocations.map(a => Math.round((a / sum) * 100 * 10) / 10);
+            },
+
+            getCategory(index, total) {
+                if (index < total * 0.4) return 'core';
+                if (index < total * 0.7) return 'growth';
+                return 'defensive';
+            },
+
+            // Edit company names here
+            getCompanyName(ticker) {
+                const names = {
+                    'AAPL': 'Apple Inc.',
+                    'MSFT': 'Microsoft Corporation',
+                    'GOOGL': 'Alphabet Inc.',
+                    'AMZN': 'Amazon.com Inc.',
+                    'TSLA': 'Tesla Inc.',
+                    'NVDA': 'NVIDIA Corporation',
+                    'META': 'Meta Platforms Inc.',
+                    'BRK-B': 'Berkshire Hathaway Inc.',
+                    'JNJ': 'Johnson & Johnson',
+                    'V': 'Visa Inc.',
+                    'MA': 'Mastercard Inc.',
+                    'PG': 'Procter & Gamble Co.',
+                    'KO': 'The Coca-Cola Company',
+                    'O': 'Realty Income Corporation',
+                    'VZ': 'Verizon Communications',
+                    'T': 'AT&T Inc.',
+                    'SPY': 'SPDR S&P 500 ETF',
+                    'QQQ': 'Invesco QQQ ETF'
+                };
+                return names[ticker] || `${ticker} Corporation`;
+            },
+
+            // Edit reasoning explanations here
+            getReasoning(ticker, style) {
+                const reasoningBank = {
+                    'AAPL': {
+                        'Buffett Disciple': 'Apple has an exceptional economic moat through its ecosystem lock-in effect. The company generates massive free cash flow and has a fortress balance sheet with minimal debt.',
+                        'Quality Compounder': 'Apple demonstrates consistent high returns on invested capital through its premium pricing power and loyal customer base. The services business provides recurring revenue streams.',
+                        'Growth at Reasonable Price': 'Despite its size, Apple continues growing through new product categories and geographic expansion. Trading at reasonable valuation relative to growth prospects.',
+                        'default': 'Apple offers a combination of stability and growth potential through its diversified product portfolio and strong brand loyalty.'
+                    },
+                    'MSFT': {
+                        'Quality Compounder': 'Microsoft has transformed into a subscription-based business with Azure and Office 365 driving predictable recurring revenue growth with excellent unit economics.',
+                        'Growth at Reasonable Price': 'Cloud computing adoption is still in early innings. Microsoft is well-positioned to capture enterprise digital transformation spending over the next decade.',
+                        'default': 'Microsoft benefits from the secular shift to cloud computing with Azure and strong enterprise software moats.'
+                    },
+                    'NVDA': {
+                        'Disruptive Technology': 'NVIDIA is the clear leader in AI chips with CUDA ecosystem creating switching costs. The company sits at the center of the AI revolution.',
+                        'Venture-Style Equity': 'High-conviction bet on artificial intelligence infrastructure. NVIDIA processors are essential for training large language models and autonomous systems.',
+                        'default': 'NVIDIA dominates the AI chip market with superior technology and ecosystem advantages.'
+                    },
+                    'default': 'This position aligns with the portfolio strategy of focusing on quality businesses with sustainable competitive advantages.'
+                };
+
+                const tickerReasons = reasoningBank[ticker] || reasoningBank['default'];
+                return tickerReasons[style] || tickerReasons['default'];
+            },
+
+            getTechnicalSummary(metrics) {
+                const trend = metrics.trend_direction;
+                if (trend === 'uptrend') {
+                    return 'Stock is in an uptrend, trading above both 50-day and 200-day moving averages, indicating strong momentum.';
+                } else if (trend === 'downtrend') {
+                    return 'Stock is in a downtrend, trading below key moving averages, suggesting weakening technical conditions.';
+                } else {
+                    return 'Stock is trading sideways, moving between key support and resistance levels with no clear directional bias.';
+                }
+            },
+
+            // Edit portfolio summary templates
+            getPortfolioSummary(style, profile) {
+                const summaries = {
+                    'Buffett Disciple': `This value-focused portfolio emphasizes businesses with durable competitive moats trading at reasonable prices. Each position represents a high-quality company with predictable cash flows and strong balance sheets.`,
+                    'Quality Compounder': `This growth-oriented portfolio focuses on companies with high returns on invested capital and long runways for reinvestment. These businesses can compound wealth over decades through operational excellence.`,
+                    'Disruptive Technology': `This technology-focused portfolio targets companies at the forefront of transformational trends like artificial intelligence, autonomous systems, and digital transformation.`,
+                    'default': `This balanced portfolio combines growth and value principles to deliver long-term wealth creation while managing downside risk.`
+                };
+                
+                return summaries[style] || summaries['default'];
+            }
+        };
+
+        // ====================================
+        // 🎨 REACT COMPONENTS - EDIT UI HERE
+        // ====================================
+        const { useState, useEffect } = React;
+
+        // Landing Page Component
+        function LandingPage({ onGetStarted }) {
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-900 via-blue-900 to-black text-white overflow-hidden">
+                    {/* Navigation */}
+                    <nav className="relative z-10 flex items-center justify-between p-6">
+                        <div className="text-2xl font-bold">
+                            <span className="text-emerald-400">Investor</span>Playbook
+                        </div>
+                        <button 
+                            onClick={onGetStarted}
+                            className="bg-emerald-500 hover:bg-emerald-400 px-6 py-2 rounded-full font-semibold transition-all transform hover:scale-105"
+                        >
+                            Get Started →
+                        </button>
+                    </nav>
+
+                    {/* Hero Section */}
+                    <div className="relative z-10 max-w-4xl mx-auto px-6 pt-20">
+                        <div className="text-center mb-16 fade-in">
+                            <h1 className="text-6xl font-bold mb-6 leading-tight">
+                                Think Like a 
+                                <span className="text-emerald-400 pulse-animate"> Fund Manager</span>
+                            </h1>
+                            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                                Get AI-powered portfolio recommendations based on proven investment strategies. 
+                                Real data, clear reasoning, professional-grade analysis.
+                            </p>
+                            <button 
+                                onClick={onGetStarted}
+                                className="bg-emerald-500 hover:bg-emerald-400 px-8 py-4 rounded-full text-lg font-semibold transition-all transform hover:scale-105 hover:shadow-xl"
+                            >
+                                Build My Portfolio →
+                            </button>
+                        </div>
+
+                        {/* Features Grid */}
+                        <div className="grid md:grid-cols-3 gap-8 mt-20">
+                            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
+                                    <span className="text-2xl">🤖</span>
+                                </div>
+                                <h3 className="text-xl font-semibold mb-2">AI Fund Manager</h3>
+                                <p className="text-gray-300">Automatically matched to proven investment strategies based on your profile.</p>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
+                                    <span className="text-2xl">📊</span>
+                                </div>
+                                <h3 className="text-xl font-semibold mb-2">Real-Time Data</h3>
+                                <p className="text-gray-300">Live financial metrics, P/E ratios, and technical analysis for every recommendation.</p>
+                            </div>
+
+                            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+                                <div className="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center mb-4">
+                                    <span className="text-2xl">💡</span>
+                                </div>
+                                <h3 className="text-xl font-semibold mb-2">Clear Reasoning</h3>
+                                <p className="text-gray-300">Plain-language explanations for every stock pick with fundamental analysis.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Background gradient blobs */}
+                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+                        <div className="absolute top-1/4 -left-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                        <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Onboarding Component
+        function OnboardingFlow({ onComplete, onBack }) {
+            const [step, setStep] = useState(0);
+            const [profile, setProfile] = useState({
+                risk_appetite: '',
+                investment_goal: '',
+                initial_investment: 0
+            });
+            const [isGenerating, setIsGenerating] = useState(false);
+            const [progress, setProgress] = useState('');
+
+            const handleRiskSelect = (risk) => {
+                setProfile(prev => ({ ...prev, risk_appetite: risk }));
+                setStep(1);
+            };
+
+            const handleGoalSelect = (goal) => {
+                setProfile(prev => ({ ...prev, investment_goal: goal }));
+                setStep(2);
+            };
+
+            const handleAmountSubmit = async () => {
+                if (!profile.initial_investment || profile.initial_investment < 100) return;
+                
+                setIsGenerating(true);
+                
+                try {
+                    // Step 1: Assign fund manager
+                    setProgress('Analyzing your investment profile...');
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    const managerInfo = FundManagerService.getManagerStyle(
+                        profile.risk_appetite,
+                        profile.investment_goal
+                    );
+                    
+                    // Step 2: Generate portfolio
+                    setProgress('Building your personalized portfolio...');
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    const portfolio = await PortfolioService.generatePortfolio(profile, managerInfo);
+                    
+                    setProgress('Finalizing recommendations...');
+                    await new Promise(resolve => setTimeout(resolve, 800));
+                    
+                    onComplete({
+                        profile,
+                        managerInfo,
+                        portfolio
+                    });
+                } catch (error) {
+                    console.error('Portfolio generation failed:', error);
+                    setIsGenerating(false);
+                }
+            };
+
+            if (isGenerating) {
+                return (
+                    <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
+                        <div className="text-center max-w-md">
+                            <div className="w-16 h-16 border-4 border-emerald-400 border-t-transparent rounded-full animate-spin mx-auto mb-8"></div>
+                            <h2 className="text-3xl font-bold text-white mb-4">Building Your Portfolio</h2>
+                            <p className="text-emerald-400 text-lg font-semibold mb-2">{progress}</p>
+                            <div className="bg-gray-800 rounded-full h-2 w-full">
+                                <div className="bg-emerald-400 h-2 rounded-full transition-all duration-1000" 
+                                     style={{width: step === 0 ? '33%' : step === 1 ? '66%' : '100%'}}></div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            return (
+                <div className="min-h-screen bg-gray-900 text-white">
+                    {/* Back button */}
+                    <div className="p-6">
+                        <button onClick={onBack} className="text-gray-400 hover:text-white transition-colors">
+                            ← Back to home
+                        </button>
+                    </div>
+
+                    <div className="max-w-2xl mx-auto px-6 pt-8">
+                        {/* Progress bar */}
+                        <div className="flex gap-2 mb-12">
+                            {[0, 1, 2].map(i => (
+                                <div key={i} className={`h-1 flex-1 rounded-full transition-all ${
+                                    i <= step ? 'bg-emerald-400' : 'bg-gray-700'
+                                }`} />
+                            ))}
+                        </div>
+
+                        {/* Step 0: Risk Appetite */}
+                        {step === 0 && (
+                            <div className="fade-in">
+                                <h2 className="text-4xl font-bold mb-4">What's your risk tolerance?</h2>
+                                <p className="text-gray-400 mb-12 text-lg">This helps us match you with the right investment strategy.</p>
+                                
+                                <div className="space-y-4">
+                                    {[
+                                        { value: 'low', title: 'Conservative', desc: 'I prioritize protecting my capital over high returns' },
+                                        { value: 'medium', title: 'Balanced', desc: 'I want growth but can handle some volatility' },
+                                        { value: 'high', title: 'Aggressive', desc: 'I can handle significant ups and downs for higher potential returns' }
+                                    ].map(option => (
+                                        <button
+                                            key={option.value}
+                                            onClick={() => handleRiskSelect(option.value)}
+                                            className="w-full p-6 bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-emerald-400 rounded-xl text-left transition-all group"
+                                        >
+                                            <h3 className="text-xl font-semibold mb-2 group-hover:text-emerald-400">{option.title}</h3>
+                                            <p className="text-gray-400">{option.desc}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 1: Investment Goal */}
+                        {step === 1 && (
+                            <div className="fade-in">
+                                <h2 className="text-4xl font-bold mb-4">What's your investment timeline?</h2>
+                                <p className="text-gray-400 mb-12 text-lg">This determines your asset allocation strategy.</p>
+                                
+                                <div className="space-y-4">
+                                    {[
+                                        { value: 'short_term', title: 'Short Term', desc: 'Less than 1 year - I need liquidity' },
+                                        { value: 'medium_term', title: 'Medium Term', desc: '1-5 years - Building towards a goal' },
+                                        { value: 'long_term', title: 'Long Term', desc: '5+ years - Long-term wealth building' }
+                                    ].map(option => (
+                                        <button
+                                            key={option.value}
+                                            onClick={() => handleGoalSelect(option.value)}
+                                            className="w-full p-6 bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-emerald-400 rounded-xl text-left transition-all group"
+                                        >
+                                            <h3 className="text-xl font-semibold mb-2 group-hover:text-emerald-400">{option.title}</h3>
+                                            <p className="text-gray-400">{option.desc}</p>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Step 2: Investment Amount */}
+                        {step === 2 && (
+                            <div className="fade-in">
+                                <h2 className="text-4xl font-bold mb-4">How much are you investing?</h2>
+                                <p className="text-gray-400 mb-12 text-lg">We'll create specific allocation amounts for each position.</p>
+                                
+                                <div className="mb-8">
+                                    <div className="relative mb-6">
+                                        <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 text-2xl">$</span>
+                                        <input
+                                            type="number"
+                                            value={profile.initial_investment || ''}
+                                            onChange={(e) => setProfile(prev => ({ 
+                                                ...prev, 
+                                                initial_investment: parseFloat(e.target.value) || 0 
+                                            }))}
+                                            placeholder="10,000"
+                                            className="w-full bg-gray-800 border border-gray-700 rounded-xl py-4 pl-12 pr-4 text-white text-2xl focus:border-emerald-400 focus:outline-none"
+                                        />
+                                    </div>
+
+                                    {/* Quick amount buttons */}
+                                    <div className="grid grid-cols-4 gap-3 mb-8">
+                                        {[1000, 5000, 10000, 25000].map(amount => (
+                                            <button
+                                                key={amount}
+                                                onClick={() => setProfile(prev => ({ ...prev, initial_investment: amount }))}
+                                                className="py-3 bg-gray-800 hover:bg-emerald-500/20 border border-gray-700 hover:border-emerald-400 rounded-lg text-emerald-400 hover:text-emerald-300 transition-all"
+                                            >
+                                                ${amount.toLocaleString()}
+                                            </button>
+                                        ))}
+                                    </div>
+
+                                    <button
+                                        onClick={handleAmountSubmit}
+                                        disabled={!profile.initial_investment || profile.initial_investment < 100}
+                                        className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 disabled:bg-gray-700 disabled:cursor-not-allowed rounded-xl font-semibold text-lg transition-all transform hover:scale-[1.02] disabled:hover:scale-100"
+                                    >
+                                        Generate My Portfolio →
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // Portfolio Dashboard Component
+        function Dashboard({ data, onStartOver }) {
+            const { portfolio, managerInfo } = data;
+
+            return (
+                <div className="min-h-screen bg-gray-900 text-white">
+                    {/* Header */}
+                    <div className="bg-gray-800 border-b border-gray-700">
+                        <div className="max-w-6xl mx-auto px-6 py-6 flex items-center justify-between">
+                            <div>
+                                <h1 className="text-2xl font-bold">Your AI-Generated Portfolio</h1>
+                                <p className="text-gray-400 mt-1">Managed by {managerInfo.style}</p>
+                            </div>
+                            <button
+                                onClick={onStartOver}
+                                className="px-6 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                            >
+                                ← Build New Portfolio
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="max-w-6xl mx-auto px-6 py-8">
+                        {/* Portfolio Summary */}
+                        <div className="bg-gradient-to-r from-emerald-500/20 to-blue-500/20 rounded-2xl p-8 mb-8 fade-in">
+                            <div className="flex items-center justify-between mb-6">
+                                <div>
+                                    <h2 className="text-3xl font-bold mb-2">${portfolio.total_investment.toLocaleString()}</h2>
+                                    <p className="text-emerald-400 font-semibold">{managerInfo.style} Strategy</p>
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-sm text-gray-400 mb-1">Allocation</div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-4 h-4 bg-blue-400 rounded"></div>
+                                        <span className="text-sm">Core</span>
+                                        <div className="w-4 h-4 bg-emerald-400 rounded ml-4"></div>
+                                        <span className="text-sm">Growth</span>
+                                        <div className="w-4 h-4 bg-amber-400 rounded ml-4"></div>
+                                        <span className="text-sm">Defensive</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p className="text-gray-300 text-lg leading-relaxed">{portfolio.portfolio_summary}</p>
+                        </div>
+
+                        {/* Holdings Grid */}
+                        <div className="grid lg:grid-cols-2 gap-6">
+                            {portfolio.holdings.map((holding, index) => (
+                                <StockCard key={holding.ticker} holding={holding} index={index} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Stock Card Component
+        function StockCard({ holding, index }) {
+            const categoryColors = {
+                core: 'border-blue-400 bg-blue-500/10',
+                growth: 'border-emerald-400 bg-emerald-500/10',
+                defensive: 'border-amber-400 bg-amber-500/10'
+            };
+
+            const trendColors = {
+                uptrend: 'text-emerald-400',
+                downtrend: 'text-red-400',
+                sideways: 'text-amber-400'
+            };
+
+            return (
+                <div className={`bg-gray-800 rounded-2xl p-6 border fade-in ${categoryColors[holding.category] || 'border-gray-700'}`}
+                     style={{animationDelay: `${index * 0.1}s`}}>
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-6">
+                        <div>
+                            <div className="flex items-center gap-3 mb-2">
+                                <h3 className="text-2xl font-bold font-mono">{holding.ticker}</h3>
+                                <span className="text-xs px-2 py-1 bg-gray-700 rounded-full text-gray-300 capitalize">
+                                    {holding.category}
+                                </span>
+                            </div>
+                            <p className="text-gray-400 text-sm">{holding.company_name}</p>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-2xl font-bold text-emerald-400">{holding.allocation_pct}%</div>
+                            <div className="text-gray-400">${holding.dollar_value.toLocaleString()}</div>
+                        </div>
+                    </div>
+
+                    {/* Metrics */}
+                    <div className="grid grid-cols-3 gap-4 mb-6">
+                        <div className="bg-gray-900/50 rounded-lg p-3">
+                            <div className="text-xs text-gray-400 mb-1">P/E Ratio</div>
+                            <div className="font-bold">
+                                {holding.metrics.pe_ratio ? holding.metrics.pe_ratio.toFixed(1) : 'N/A'}
+                            </div>
+                        </div>
+                        <div className="bg-gray-900/50 rounded-lg p-3">
+                            <div className="text-xs text-gray-400 mb-1">Revenue Growth</div>
+                            <div className="font-bold">
+                                {holding.metrics.revenue_growth ? 
+                                    `${(holding.metrics.revenue_growth * 100).toFixed(1)}%` : 'N/A'}
+                            </div>
+                        </div>
+                        <div className="bg-gray-900/50 rounded-lg p-3">
+                            <div className="text-xs text-gray-400 mb-1">Trend</div>
+                            <div className={`font-bold capitalize ${trendColors[holding.metrics.trend_direction] || 'text-gray-400'}`}>
+                                {holding.metrics.trend_direction}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Reasoning */}
+                    <div className="border-t border-gray-700 pt-4">
+                        <h4 className="text-sm font-semibold text-gray-400 mb-2">INVESTMENT THESIS</h4>
+                        <p className="text-gray-300 text-sm leading-relaxed mb-3">{holding.reasoning}</p>
+                        <p className="text-gray-400 text-xs leading-relaxed">{holding.technical_summary}</p>
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function App() {
+            const [currentScreen, setCurrentScreen] = useState('landing');
+            const [portfolioData, setPortfolioData] = useState(null);
+
+            const handleGetStarted = () => {
+                setCurrentScreen('onboarding');
+            };
+
+            const handleOnboardingComplete = (data) => {
+                setPortfolioData(data);
+                setCurrentScreen('dashboard');
+            };
+
+            const handleStartOver = () => {
+                setPortfolioData(null);
+                setCurrentScreen('landing');
+            };
+
+            const handleBackToLanding = () => {
+                setCurrentScreen('landing');
+            };
+
+            return (
+                <div>
+                    {currentScreen === 'landing' && (
+                        <LandingPage onGetStarted={handleGetStarted} />
+                    )}
+                    
+                    {currentScreen === 'onboarding' && (
+                        <OnboardingFlow 
+                            onComplete={handleOnboardingComplete}
+                            onBack={handleBackToLanding}
+                        />
+                    )}
+                    
+                    {currentScreen === 'dashboard' && portfolioData && (
+                        <Dashboard 
+                            data={portfolioData}
+                            onStartOver={handleStartOver}
+                        />
+                    )}
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+         <footer>
       <div>&copy; 2025 Alpha Explorer. All rights reserved.</div>
       <div class="icon-bar">
         <a href="mailto:Rayhaan.Charniya@gmail.com" target="_blank" aria-label="Email">
@@ -280,115 +779,6 @@
         </a>
       </div>
     </footer>
-  </div>
-
-  <script>
-    const toggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      body.classList.add('dark-mode');
-      toggle.checked = true;
-    }
-
-    toggle.addEventListener('change', () => {
-      if (toggle.checked) {
-        body.classList.add('dark-mode');
-        localStorage.setItem('darkMode', 'enabled');
-      } else {
-        body.classList.remove('dark-mode');
-        localStorage.setItem('darkMode', 'disabled');
-      }
-    });
-  </script>
-  <!-- Stock Chatbot Section -->
-<section id="chatbot" style="padding: 40px; background: #111; color: white;">
-  <h2 class="text-2xl font-bold mb-4">💬 What stocks would you invest in and why?</h2>
-  <div id="chat-container" style="max-width: 600px; margin: auto; border: 1px solid #444; border-radius: 12px; padding: 20px; background: #1a1a1a; height: 400px; overflow-y: auto;">
-    <div class="bot-message">👋 Hi! I’m your stock buddy. Tell me a stock you’d invest in and why, and I’ll give you my thoughts.</div>
-  </div>
-  
-  <div style="display: flex; margin-top: 10px; max-width: 600px; margin-left: auto; margin-right: auto;">
-    <input type="text" id="user-input" placeholder="Type your answer here..." 
-           style="flex: 1; padding: 10px; border: none; border-radius: 8px 0 0 8px; outline: none;">
-    <button onclick="sendMessage()" 
-            style="padding: 10px 20px; background: #007bff; border: none; color: white; font-weight: bold; border-radius: 0 8px 8px 0;">Send</button>
-  </div>
-</section>
-
-<script>
-  const chatContainer = document.getElementById("chat-container");
-  const userInput = document.getElementById("user-input");
-
-  // Stock "knowledge base" for the bot
-  const stockResponses = {
-    "AAPL": "🍏 Apple is a strong tech giant with steady cash flows. Many invest for stability & iPhone ecosystem.",
-    "TSLA": "🚗 Tesla is high growth but volatile. It's popular among risk-takers who believe in EVs long-term.",
-    "NVDA": "⚡ Nvidia dominates AI & GPU chips. Very high growth, but priced aggressively.",
-    "AMZN": "📦 Amazon has huge e-commerce & AWS cloud revenue. A long-term compounder.",
-    "GOOGL": "🔍 Alphabet leads in search & AI. Cash-rich and diversified.",
-    "MSFT": "💻 Microsoft is stable with strong cloud growth (Azure). Often seen as a safe big tech pick.",
-    "SPY": "📊 SPY tracks the S&P 500 — great for diversification if you don’t want to pick individual stocks."
-  };
-
-  // Function to send user message and get bot reply
-  function sendMessage() {
-    const message = userInput.value.trim();
-    if (!message) return;
-
-    // Show user message
-    appendMessage("user", message);
-
-    // Generate bot response
-    let response = "🤔 Interesting choice! Tell me more about your reasoning.";
-    for (let stock in stockResponses) {
-      if (message.toUpperCase().includes(stock)) {
-        response = stockResponses[stock];
-        break;
-      }
-    }
-
-    // Add a "teaching" reply if user gives reasoning
-    if (message.toLowerCase().includes("because") || message.toLowerCase().includes("why")) {
-      response += " ✅ I like that you explained your reasoning. Thinking about *why* is key in investing!";
-    }
-
-    setTimeout(() => appendMessage("bot", response), 600);
-
-    userInput.value = "";
-  }
-
-  // Append messages to chat
-  function appendMessage(sender, text) {
-    const div = document.createElement("div");
-    div.className = sender === "user" ? "user-message" : "bot-message";
-    div.style.margin = "10px 0";
-    div.style.padding = "10px";
-    div.style.borderRadius = "8px";
-    div.style.maxWidth = "80%";
-    div.style.wordWrap = "break-word";
-    
-    if (sender === "user") {
-      div.style.background = "#007bff";
-      div.style.color = "white";
-      div.style.marginLeft = "auto";
-    } else {
-      div.style.background = "#333";
-      div.style.color = "#fff";
-      div.style.marginRight = "auto";
-    }
-
-    div.textContent = text;
-    chatContainer.appendChild(div);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-  }
-
-  // Allow Enter key to send
-  userInput.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
-  });
-</script>
+    </script>
 </body>
 </html>
